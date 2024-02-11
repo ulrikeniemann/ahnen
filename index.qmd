@@ -411,8 +411,8 @@ Geburts- und Sterbeorte mit verschiedenen Icons.
 Wiso ist da ein schwedischer noName ??
 
 ```{r}
-birth <- makeIcon("https://github.com/ulrikeniemann/ahnen/data/birth.png", 18, 18)
-death <- makeIcon("https://github.com/ulrikeniemann/ahnen/data/death.png", 18, 18)
+birth <- makeIcon("./data/birth.png", 18, 18)
+death <- makeIcon("./data/death.png", 18, 18)
 # Karte V1: mit icons
 leaflet(data) |>
   addTiles() |>
