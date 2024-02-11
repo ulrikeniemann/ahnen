@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ulrike Niemann">
+
+<title>Ahnen Familie Niemann</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="index_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="index_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="index_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="index_files/libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="index_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="index_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="index_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="index_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="index_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="index_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="index_files/libs/leaflet-binding-2.1.0/leaflet.js"></script>
+<script src="index_files/libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="index_files/libs/leaflet-providers-plugin-2.1.0/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhaltsverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#daten-einlesen-und-aufbereiten" id="toc-daten-einlesen-und-aufbereiten" class="nav-link active" data-scroll-target="#daten-einlesen-und-aufbereiten">Daten einlesen und aufbereiten</a>
+  <ul class="collapse">
+  <li><a href="#bibliotheken-laden" id="toc-bibliotheken-laden" class="nav-link" data-scroll-target="#bibliotheken-laden">Bibliotheken laden</a></li>
+  <li><a href="#daten-einlesen" id="toc-daten-einlesen" class="nav-link" data-scroll-target="#daten-einlesen">Daten einlesen</a></li>
+  <li><a href="#daten-aufbereiten" id="toc-daten-aufbereiten" class="nav-link" data-scroll-target="#daten-aufbereiten">Daten aufbereiten</a></li>
+  </ul></li>
+  <li><a href="#deskriptive-analysen" id="toc-deskriptive-analysen" class="nav-link" data-scroll-target="#deskriptive-analysen">Deskriptive Analysen</a>
+  <ul class="collapse">
+  <li><a href="#generation" id="toc-generation" class="nav-link" data-scroll-target="#generation">Generation</a></li>
+  <li><a href="#geburt-jahrhundert" id="toc-geburt-jahrhundert" class="nav-link" data-scroll-target="#geburt-jahrhundert">Geburt / Jahrhundert</a></li>
+  <li><a href="#generation-und-geburtsjahrhundert" id="toc-generation-und-geburtsjahrhundert" class="nav-link" data-scroll-target="#generation-und-geburtsjahrhundert">Generation und Geburtsjahrhundert</a></li>
+  </ul></li>
+  <li><a href="#karten" id="toc-karten" class="nav-link" data-scroll-target="#karten">Karten</a>
+  <ul class="collapse">
+  <li><a href="#version-1" id="toc-version-1" class="nav-link" data-scroll-target="#version-1">Version 1</a></li>
+  <li><a href="#version-2" id="toc-version-2" class="nav-link" data-scroll-target="#version-2">Version 2</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ahnen Familie Niemann</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor:in</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ulrike Niemann </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">19. Januar 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="daten-einlesen-und-aufbereiten" class="level2">
+<h2 class="anchored" data-anchor-id="daten-einlesen-und-aufbereiten">Daten einlesen und aufbereiten</h2>
+<section id="bibliotheken-laden" class="level3">
+<h3 class="anchored" data-anchor-id="bibliotheken-laden">Bibliotheken laden</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># librarys laden</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"tidyverse"</span>)) <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>); <span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"readxl"</span>)) <span class="fu">install.packages</span>(<span class="st">"readxl"</span>); <span class="fu">library</span>(readxl)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"leaflet"</span>)) <span class="fu">install.packages</span>(<span class="st">"leaflet"</span>); <span class="fu">library</span>(leaflet)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"RColorBrewer"</span>)) <span class="fu">install.packages</span>(<span class="st">"RColorBrewer"</span>); <span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"janitor"</span>)) <span class="fu">install.packages</span>(<span class="st">"janitor"</span>); <span class="fu">library</span>(janitor)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"scales"</span>)) <span class="fu">install.packages</span>(<span class="st">"scales"</span>); <span class="fu">library</span>(scales)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"knitr"</span>)) <span class="fu">install.packages</span>(<span class="st">"knitr"</span>); <span class="fu">library</span>(knitr)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"kableExtra"</span>)) <span class="fu">install.packages</span>(<span class="st">"kableExtra"</span>); <span class="fu">library</span>(kableExtra)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="daten-einlesen" class="level3">
+<h3 class="anchored" data-anchor-id="daten-einlesen">Daten einlesen</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"./data/Ulrike 17.Jan 2024.xlsx"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Wir haben hier 319 Zeilen eingelesen.</p>
+</section>
+<section id="daten-aufbereiten" class="level3">
+<h3 class="anchored" data-anchor-id="daten-aufbereiten">Daten aufbereiten</h3>
+<p>Die Geodaten werden bereinigt, für Geburt und Tod das Jahrhundert extrahiert.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># aufbereiten</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Generation =</span> <span class="fu">str_split</span>(GENERATION, <span class="st">" "</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)[, <span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">unlist</span>(),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">lat1 =</span> <span class="st">`</span><span class="at">GEO1 BREITE</span><span class="st">`</span> <span class="sc">|&gt;</span> <span class="fu">parse_number</span>(),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">lon1 =</span> <span class="st">`</span><span class="at">GEO1 LÄNGE</span><span class="st">`</span> <span class="sc">|&gt;</span> <span class="fu">parse_number</span>(),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">lat2 =</span> <span class="st">`</span><span class="at">GEO2 BREITE</span><span class="st">`</span> <span class="sc">|&gt;</span> <span class="fu">parse_number</span>(),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">lon2 =</span> <span class="st">`</span><span class="at">GEO2 LÄNGE</span><span class="st">`</span> <span class="sc">|&gt;</span> <span class="fu">parse_number</span>(),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Geburt =</span> (data<span class="sc">$</span><span class="st">`</span><span class="at">GEB JAHR</span><span class="st">`</span><span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">floor</span>(),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">Tod =</span> (data<span class="sc">$</span><span class="st">`</span><span class="at">TOD JAHR</span><span class="st">`</span><span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">floor</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Geburt =</span> <span class="fu">factor</span>(<span class="fu">str_c</span>(Geburt, <span class="st">"00 - "</span>, Geburt, <span class="st">"99"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">fct_explicit_na</span>(<span class="st">"(keine Angabe)"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tod =</span> <span class="fu">factor</span>(<span class="fu">str_c</span>(Tod, <span class="st">"00 - "</span>, Tod, <span class="st">"99"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>           <span class="fu">fct_explicit_na</span>(<span class="st">"(keine Angabe)"</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="deskriptive-analysen" class="level2">
+<h2 class="anchored" data-anchor-id="deskriptive-analysen">Deskriptive Analysen</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function für hübsche Tabelle</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>getTable <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>({{var}}) <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Anzahl =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Prozent =</span> (Anzahl<span class="sc">/</span><span class="fu">sum</span>(Anzahl))) <span class="sc">|&gt;</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Prozent =</span> Prozent <span class="sc">|&gt;</span> <span class="fu">percent</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>, <span class="at">decimal.mark =</span> <span class="st">","</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  tab <span class="sc">|&gt;</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">full_width =</span> F) <span class="sc">|&gt;</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="fu">dim</span>(tab)[<span class="dv">1</span>], <span class="at">bold =</span> T)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="generation" class="level3">
+<h3 class="anchored" data-anchor-id="generation">Generation</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getTable</span>(Generation)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Generation</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Anzahl</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Prozent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1a</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1b</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">II</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1,3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">III</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">2,5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IV</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">4,4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IX</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">11,3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">8,5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VI</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">14,1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VII</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">18,5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VIII</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">18,5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">8,8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">XI</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">6,6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">XII</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">2,5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">XIII</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1,3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">XIV</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Total</td>
+<td style="text-align: center; font-weight: bold;">319</td>
+<td style="text-align: center; font-weight: bold;">100,0%</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">y =</span> Generation)) <span class="sc">+</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="st">"#009933"</span>)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits=</span>rev, <span class="at">name =</span> <span class="st">"Generation / Ebene"</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>))) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Anzahl Vorfahren nach Generation"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>, <span class="at">face=</span><span class="st">"bold"</span>, </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">0</span>))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="geburt-jahrhundert" class="level3">
+<h3 class="anchored" data-anchor-id="geburt-jahrhundert">Geburt / Jahrhundert</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getTable</span>(Geburt)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Geburt</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Anzahl</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Prozent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1500 - 1599</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1600 - 1699</td>
+<td style="text-align: center;">29</td>
+<td style="text-align: center;">9,1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1700 - 1799</td>
+<td style="text-align: center;">169</td>
+<td style="text-align: center;">53,0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1800 - 1899</td>
+<td style="text-align: center;">69</td>
+<td style="text-align: center;">21,6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1900 - 1999</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">3,1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(keine Angabe)</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">12,5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold;">Total</td>
+<td style="text-align: center; font-weight: bold;">319</td>
+<td style="text-align: center; font-weight: bold;">100,0%</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">y =</span> Geburt)) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="st">"#009933"</span>)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits=</span>rev, <span class="at">name =</span> <span class="st">"Jahrhundert Geburt"</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>))) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Anzahl Vorfahren nach Geburtsjahrhundert"</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>, <span class="at">face=</span><span class="st">"bold"</span>, </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">0</span>))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="generation-und-geburtsjahrhundert" class="level3">
+<h3 class="anchored" data-anchor-id="generation-und-geburtsjahrhundert">Generation und Geburtsjahrhundert</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generation + Geburt</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">y =</span> Generation)) <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Geburt)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits=</span>rev, <span class="at">name =</span> <span class="st">"Generation / Ebene"</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>))) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="fu">brewer.pal</span>(<span class="fu">length</span>(<span class="fu">levels</span>(data<span class="sc">$</span>Geburt)), <span class="st">"Greens"</span>)[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"#aaaaaa"</span>)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Anzahl Vorfahren nach Generation und Geburtsjahrhundert"</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>, <span class="at">face=</span><span class="st">"bold"</span>, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                             <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">0</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="karten" class="level2">
+<h2 class="anchored" data-anchor-id="karten">Karten</h2>
+<p>Erst mal füge ich den Geodaten ein leichtes “Rauschen” hinzu, damit Dublikate (Vorfahren mit gleichen Geodaten) beim Reinscrollen trotzdem sichtbar werden.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leichtes Rauschen</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>lat1x <span class="ot">&lt;-</span> <span class="fu">jitter</span>(data<span class="sc">$</span>lat1, <span class="at">factor =</span> <span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>lon1x <span class="ot">&lt;-</span> <span class="fu">jitter</span>(data<span class="sc">$</span>lon1, <span class="at">factor =</span> <span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>lat2x <span class="ot">&lt;-</span> <span class="fu">jitter</span>(data<span class="sc">$</span>lat2, <span class="at">factor =</span> <span class="dv">1</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>lon2x <span class="ot">&lt;-</span> <span class="fu">jitter</span>(data<span class="sc">$</span>lon2, <span class="at">factor =</span> <span class="dv">1</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Hier ist noch einiges zu tun… wie können wir die Karte optimal darstellen?</p>
+<p>Man kann in die Karten raus- und reinscrollen.</p>
+<p>Beim Pop-Up habe ich die Namen hinterlegt.</p>
+<section id="version-1" class="level3">
+<h3 class="anchored" data-anchor-id="version-1">Version 1</h3>
+<p>Geburts- und Sterbeorte mit verschiedenen Icons.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Karte V1: mit icons</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(<span class="st">"OpenStreetMap.DE"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">options =</span> <span class="fu">providerTileOptions</span>(<span class="at">noWrap =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#addProviderTiles("Jawg.Sunny") |&gt; </span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="sc">~</span>lon1x, <span class="sc">~</span>lat1x, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">icon =</span> <span class="fu">makeIcon</span>(<span class="st">"./data/birth.png"</span>, <span class="dv">18</span>, <span class="dv">18</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="sc">~</span><span class="fu">str_c</span>(VORNAME, <span class="st">" "</span>, NAME)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="sc">~</span>lon2x, <span class="sc">~</span>lat2x, </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">icon =</span> <span class="fu">makeIcon</span>(<span class="st">"./data/death.png"</span>, <span class="dv">18</span>, <span class="dv">18</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="sc">~</span><span class="fu">str_c</span>(VORNAME, <span class="st">" "</span>, NAME))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="htmlwidget-2b7060d0e976aadf85a8" style="width:100%;height:464px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2b7060d0e976aadf85a8">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["OpenStreetMap.DE",null,null,{"errorTileUrl":"","noWrap":true,"detectRetina":false}]},{"method":"addMarkers","args":[[53.62997062989734,53.6311417919429,53.63012506150771,52.20271686637663,53.63069579682443,53.59256218659841,52.47653390561957,52.20148992067836,53.62783948996422,53.63123595795073,53.55880065071228,53.59147971915696,50.72202986295019,54.89961811561194,52.2016034889061,54.3592936686907,53.65994044896644,53.70576872172319,53.67389969002661,53.6951233173119,53.55041484351437,53.5295443516722,53.58974144222457,53.59275466833599,50.70775973757431,50.70960996959154,52.20133121701591,52.1927406460708,54.23926884140801,54.24073149182536,53.54448559839967,53.65867034284734,53.56682120750081,53.68781531188056,53.73062318622899,53.67464130366427,53.75588841331918,53.69639914052227,53.55683555719554,53.55129584115446,53.53014849875905,53.53524387136996,53.58968981454112,53.5310420780709,53.59177585638184,50.70888469410949,null,50.69950823539794,54.89831721749027,52.24870801969488,52.25962734986097,52.19166641462409,52.16724922702964,54.36918540659785,54.24167195068561,54.24196320612245,54.24189765232411,53.57259510103297,53.57096623319481,53.49389354546462,53.66039517291226,53.9329710020287,53.56518133269046,53.70806769554094,53.67178178633041,53.78123485240918,53.64977560184915,53.67147250750121,53.68776356456503,53.71173759837486,53.75649804941695,53.67892458141372,53.71451361018363,53.6158039732866,53.55893873358443,53.6204480902575,53.58039312292374,53.53245173979309,53.52250291028022,53.60158375039436,53.5297544140231,53.5905038687732,53.61336713699085,53.46879393699858,53.53187028890625,53.59070424914044,53.5904190373119,50.72169517423995,50.73262918215879,null,52.19157183535956,null,52.16846866173241,52.1685461215539,54.36894231830217,54.37761195189766,53.35868883447572,54.37091266537234,53.46095837504399,54.24022704039962,53.3218050202936,54.15578828508146,53.55607090174518,53.60015116191767,54.09947133332137,53.54661536641829,53.94059162542783,53.50765912012701,53.66019474037234,53.65819208355863,null,null,53.72589405056388,53.56588928371556,53.72770054208394,null,null,null,null,53.67275402376634,53.59006177821066,53.70356852743495,53.69137129840907,53.68056231212672,53.71539931274894,53.75943315084502,53.75724543512371,53.71040749018416,53.63260694083795,53.75110274078678,53.69440245145132,53.55264804130029,53.53134303207193,53.55920508833155,53.55901826178114,53.6208166399127,null,53.58268164394162,53.68948274252694,53.52974392629173,53.53684010476209,53.52119187460151,53.52255801702999,53.60081902988739,53.59956852120645,53.53701838829983,53.53510514108613,53.59213584974669,53.63021120252815,53.59170361003429,53.5917734010052,53.36344000552017,53.47095252948161,53.53382245891783,53.53116515641064,53.56838988283724,53.59038332315404,null,54.34661685604155,54.36944965707566,53.46305113173165,53.40357442867123,53.4049414701324,53.55514639640003,null,null,null,53.65903399994188,null,null,null,null,null,null,53.68977590807472,53.6592164634565,53.67959421092328,53.73954681698364,null,null,53.60297023759727,53.64898283785283,53.73460305901487,53.75007433775608,null,null,53.55590595019441,53.51480410215053,53.56113449053056,53.56125052071511,53.59462547956743,53.61475838081837,53.58172690837197,53.68879847139623,53.58071822656337,53.53145104027205,null,null,null,53.54595494674277,53.52265498919096,null,53.52050902882554,53.60270510798991,null,53.60155288363266,53.63494146300611,53.53736250885632,53.59206091619525,53.6477729505051,53.33622650570012,53.48276206178069,53.53015586395711,53.53305526477527,53.52974841256439,null,53.56911296975408,53.55901071677189,53.75653183118142,53.59016393505391,53.36822155563254,null,null,53.60474017870278,null,null,53.52865000325721,null,null,null,53.61407757820115,null,53.57976019074786,53.5795831466766,null,53.59836551156194,53.52300859263222,53.51944329495132,53.60260908201635,53.60269839695952,null,null,null,null,53.68021319348514,53.59308214498833,null,53.47059409565199,null,53.53181951254383,53.53172515084744,53.53275643801838,null,53.52398089110815,null,null,null,53.65750420682281,null,53.53053346488345,null,53.61698968741969,null,53.57973577332049,53.58140974364169,53.58166418879963,53.60054401041494,53.53173248565867,null,null,null,53.59952644631192,53.60114248073492,53.69839937948511,null,null,53.48411835520286,53.48643041770011,null,null,null,null,53.38445056910906,null,null,null,53.40251065911464,null,null,null,null,null,null,null,62.25135263351164,null,53.60073120940868,53.48341843478921,53.48533562333174,53.48597393489759,null,null,null,null,null,null,null,53.60054391263724,null,null,null,null,null,53.82477902738974,53.4829629455626,53.4797124528408,53.48206416253726,null,53.47981552106123],[11.41431383833233,11.41528225809559,11.41506469199378,11.61404921236467,11.41431764858533,11.76730241480674,13.46669067122079,11.61620776247159,11.41349302717801,11.41275001436789,11.82859738724288,11.76557900442574,13.2783391872162,21.60892631349843,11.61552347569559,12.60235938684475,11.54903541068248,11.43312968316935,11.70649556448329,11.60433710086532,11.83339639903959,11.78571489448659,11.76629941838905,11.76557201257925,13.27163745803088,13.27125960360076,11.61445261420235,11.45578676093575,12.42739220881946,12.4288738458829,11.56332089569755,11.54832930975016,11.35682058309298,11.39163565139026,11.75444651228562,11.70684466044996,11.62343187426664,11.60378317438159,11.82862076996714,11.83301412759144,11.78919083406776,11.75748088133111,11.76658288544994,11.84339936821312,11.76841044406518,13.27222864889521,null,13.26836284440942,21.61007533960734,11.62620492436346,11.42275273385178,11.45553084823508,11.48148957170937,12.62134917555878,12.42900698578283,12.42759209200852,12.42539378042351,11.73381576510668,11.54555459706206,11.50799597900305,11.54556655710544,10.96676915770583,11.35556951558311,11.32884687316548,11.16472969079204,11.77920367282629,12.16027381723505,11.70738386006579,12.13813264333755,11.634966517465,11.68739889416806,11.52950975206438,11.63408548591546,11.83586137514934,11.8272179796908,12.98704287847169,11.92581363921873,11.7863180892989,11.64326835320815,11.80744518537093,11.75014176875558,11.76610288915895,11.83365426993091,11.93820148268789,11.8407754381137,11.76858017446864,11.76715350372456,13.27388837921508,13.31123290898949,null,11.45644619672857,null,11.48022078901548,11.48192872743234,12.62239450808091,12.67243856315613,8.855965737885052,12.41604433369301,13.55025055190288,12.42760204599816,14.98952098524589,12.57093494786266,11.82791576466132,11.80887127472386,13.65896986315567,11.5619389547022,12.10554535509795,11.42834596464951,11.54607234305311,11.54660270167123,null,null,11.25756104396395,11.35679169456009,11.28183446188681,null,null,null,null,11.70793292997889,11.76748559543788,12.14537363183834,12.10239559922591,11.52702929647956,11.63303587835356,11.65581959705148,11.68844501902778,11.67723137959968,11.49070029218588,11.97943183475509,11.60640818163846,11.83443079192452,11.92830076145269,11.82975954045244,11.828802043733,12.9864746978771,null,11.92639322411157,12.16114061575383,11.78833823365532,11.75791537005137,11.64213500792552,11.64398554851413,11.80870034807101,11.80629432314746,11.76006683020536,11.75717208653185,11.85163835857064,11.8905499840796,11.76730692936871,11.82773605676703,11.88263454398029,11.94115927395858,11.84090615270529,11.84259057049975,11.77497375371195,11.767779984615,null,12.39946001850478,12.41591901023723,13.55013267331216,12.1199321010232,12.12202495147921,11.95697733305749,null,null,null,11.54673275200911,null,null,null,null,null,null,12.16108858326823,11.54606322232056,11.52856523245703,11.62958684192598,null,null,11.54844243677147,11.50156162167825,11.86631856988911,11.98048302197047,null,null,11.82872317472733,11.86721947890371,11.79523684282843,11.79818601716552,12.98537249320727,11.94049411464371,11.92545775500201,12.16270856870059,11.9265439987069,11.78561442769319,null,null,null,11.56129426875859,11.64259773833882,null,11.64438104210533,11.80632578651905,null,11.80786036137138,11.4931540920455,11.75747411744445,11.76851712171007,11.14162931430992,11.86930484926533,11.97671761613972,11.84287397848591,11.84270877245683,11.88609225104302,null,11.77718308826797,11.82846327796373,11.62636794900596,11.85122684137244,12.10000314967725,null,null,11.55434552405644,null,null,11.88605174423121,null,null,null,11.94090083443634,null,11.92572331887744,11.92478532204945,null,11.48323994397335,11.64475707541425,11.64491563623696,11.80890204589739,11.80890620980058,null,null,null,null,11.52830999924838,11.76923642079364,null,11.94111492282227,null,11.84206449486837,11.84147805717643,11.83965511046592,null,12.16244643644541,null,null,null,11.54793612223565,null,11.88841249156855,null,11.94379079757426,null,11.92576302613765,11.92590830856264,11.92522777348552,11.48221249277573,11.705887039629,null,null,null,11.80859272931442,11.80711250482518,11.56028913478069,null,null,11.9771643463837,11.89348918879889,null,null,null,null,11.24801134352404,null,null,null,12.0106950829437,null,null,null,null,null,null,null,15.08999142372552,null,11.8059571131656,11.68307814125773,11.97723239666671,11.89676179827862,null,null,null,null,null,null,null,11.80761454796437,null,null,null,null,null,11.56853310627826,11.68241473448426,11.68269556940123,11.68545014092661,null,11.68635370245818],{"iconUrl":{"data":"data:image/png;base64,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","index":0},"iconRetinaUrl":{"data":18,"index":0},"iconWidth":18},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Juliane NIEMANN","Ulrike NIEMANN","Wolfgang Hermann NIEMANN","Renate Gabriele HÜBLER","Egon Harry Peter Kurt NIEMANN","Eva-Maria Erika Emma KÖPKE","Werner Siegfried HÜBLER","Anneliese Hertha Helene BELLING","Paul Albert Otto Hans NIEMANN","Ida Frieda Bertha MEIER","Hermann Friedrich Martin KÖPKE","Ilse Frieda Berta Wilhelmine LÜTH","Max Emil HÜBLER","Bertha Auguste KUMMETZ","Walter Bernhardt Richard BELLING","Auguste Hertha Wilhelmine DUROW","Christoph Joachim Theodor NIEMANN","Christine Marie Sophie WEIß","Julius Theodor Joachim MEIER","Dorothea Johanna Marie LAUDEH","Christian Johann Heinrich KÖPKE","Maria Sophia Caroline KRÜGER","Heinrich Friedrich Wilhelm Carl LÜTH","Maria Sophia Wilhelmine LÜTH","Friedrich August HÜBLER","Christiane Conkordie HÜBLER","Christian Peter Johan BELLING","Wilhelmine Elisabeth HERZBERG","Carl Wilhelm August Heinrich DUROW","Helene Johanne Christine BRANDT","Christoph Christian Friedrich NIEMANN","Elisabeth Wilhelmine SCHELENSKY","Johann Jochim Christoph WEIß","Sophia Dorothea Friederica PLEß","Friedrich Christoph Joachim MEIER","Catharina Magdalena Dorothea DANKERT","Johann Jochim LAUDEH","Louise Sophie Elisabeth TESS","Friedrich Christian Theodor KÖPKE","Johanne Friederike Magdalene NORRMANN","Johann Christian  Wilhelm KRÜGER","Sophia Dorothea Johanna SCHMIDT","Wilhelm Johann Joachim Carl LÜTH","Sophia Maria Henriette WARNK","Friederike Maria Caroline LÜTH","Friedrich August HÜBLER","Christiane Caroline WEINHOLD","Carl Gottlieb HÜBLER","Kristups KUMETZ","Carl Ludwig BELLING","Marie Elisabeth SCHRÖDER","Johann Friedrich HERZBERG","Wilhelmine Elisabeth TELLS","Johann Nicolaus DUROW","Johanna Sophia Maria THORICK","Johann Christian BRANDT","Maria Friederica Christiana HOHENSTEIN","Ernst Friedrich Heinrich NIEMANN","Christine Marie SCHMIDT","Johann Carl Friedrich SCHALENSKY","Anna Kathrina Christina HARLOFF","Johann Christoph Hartwig WEISS","Maria Magdalena Dorothea BENTHIN","Friedrich Wilhelm PLEß","Marie Elisabeth Henrietha LANGPAAP","Johan Jürgen Hinrich MEYER","Magdalena Maria TIEDE","Joachim Heinrich DANKERT","Catharina Margaretha Friderika SCHULT","Johann Friederich STIER","Elisabeth Dorothea Catharina LAUDEH","Johann Friedrich TESS","Albertina Charlotta Sophia WULF","Carl Georg Friederich KÖPKE","Johanna Maria SCHWARZ","Johann Jochen Christian NORMANN","Maria Dorothea Friederike SOLTWEDEL","Johann Joachim Friederich KRÜGER","Christine Sophie Marie HELMS","Carl Joachim Christian SCHMIDT","Sophia Elisabeth Carolina BEKENDORF","Karl Friedrich LÜTH","Maria Anna Sophia BLECK","Joachim Christian WARNK","Maria Christina Christiana VOSS","Friedrich Christoph LÜTH","Elisabeth Dorothee Henriette GOOSMANN","Carl Gottlob HÜBLER","Johanna Dorothea SCHUBERT","Marie Elisabeth BELLING","Johann Friedrich HERZBERG","Catharine Elisabeth EILERT","Johann Christian TELLS","Anna Elisabeth DEUMELANDT","Clas DUROW","Anna HORST","Hinnrich THORICK","Greth Marie MAASS","Johann Christian BRANDT","Magdalena Maria Gustava DIEFS","Johann Friedrich HOHENSTEIN","Anna Maria Dorothea LANGHOFF","Carl Jochim Andreas NIEMANN","Lehn Fieck Dorothea BARTELS","Carl Caspar SCHMIDT","Lene Marie Lisch HAMDORF","Johann Joachim Friedrich SCHALENSKY","Catarina Elisabeth Sophia IHDE","Johann Franz HARLOFF","Margareta Juliana BLOHM","Johann Hinrich Ludewig WEISS","Catharina Dorothea HINRICHS","Johan Jochim BENTIEN","Sophia Maria KREMER","Greth Liesch KÄHLER","Christian Friedrich LANGPAAP","Trien Maria ASMUS","Martin TIEDE","nn NN","Johan Jochim Dethloff DANKERT","Charlotte DREPHAL","David Wilhelm Hinrich Otto SCHULT","Margaretha Maria Dorothea WEDEL","Christian  Heinrich STIER","Maria Sophia NECHELS","Christian Hinrich LAUDEH","Maria WIGMANN","Carl Andreas TESS","Anna Greth Liesch WENDT","Jochim Christian WULF","Friederica Dorothea Maria ROHDE","Johan Friederich Philipp KÖPKE","Maria Sophia JÄCKWITZ","Jacob Georg Christoph SCHWARZ","Anna Ilse Maria JAKOBS","Friedrich Jacob NORMANN","Regina Sophia Hanna SCHMIDT","Johann Carl SOLTWEDEL","Anna Maria Isabe Sophia KOPE","Christian Johann Christoph KRÜGER","Sophia Margaretha Maria Magdelena SCHWARZ","Johann Christoph Friedrich HELMS","Marie Lies Dorthe HOGGE","Bernd Hartwig SCHMIDT","Catharina Ilsabe Maria LENHARDT","Johann Friederich Christian BEKENDORF","Dorothea Sophia CORDS","Jürgen Heinrich LÜTH","Anna Magdalena Juliana MAEDE","Magnus Friedrich BLECK","Elisabeth Dorothea MAU","Jochim Christoph Friederich Johann WARNCKE","Magdalene Dorothea SCHULZ","Hans Hinrich Jacob VOSS","Catarina Elisabeth Dorothea PETERS","Jacob Heinrich GOOSMANN","Christina Sophia KOCH","Adelheid WEIDEMANN","Michel MAASS","An Ballrüß","Ilse GALMBECK","Joachim Christopher BARTELS","Dorothea LANGMAN","Jürgen Hinrich HAMDORF","Marie Lise HARNACK","Friederich IHDE","Marg[areta] Dorothea VOGLER","Otto Johann HARLOFF","Claus BENTIEN","Hans Hinrich Christian KREMER","Marie Liese KÄHLER","Joachim Friedrich DANKERT","Christiane BENICK","Gerd Carl WEDEL","Maria Dorthi Sophie SASS","Hyeronymus Christian Joachim STIER","Elisabeth Margaretha FREUCK","Dorothea Sophia PREEN","Hans Christian LAUDEH","nn NN","Johann Jochen Christian WENDT","Anna Elisabeth REBBIN","Johann Friedrich WULF","Wilhelmina Sophia SCHÖN","Peter Jochim RHODE","Christina Dorothea HASSELBRINCK","Jochim Hinrich SCHWARZ","Dorothea Maria BOSSOW","Pagel David JAKOBS","Elisabeth Sophia LENTZ","Franz Christoph SCHMIDT","Hans Jacob SOLTWEDEL","Christina Eva KOEPCKE","Joachim Christoph KOPE","Anna Maria Dorthea KRÜGER","Johann Friedrich KRÖGER","Hedewig FÖLZER","Ernst SCHWARZ","Anna Sophia NN","Fritz Johann Christian Hinrich HELMS","Catrhin Elisabeth Dorthie WILCK","Johann HOGGE","J. Marie Lies WARNCKE","Johann Wilhelm SCHMIDT","Hans Jacob LEHNHARDT","Thrien Juliana HINZ","Jürgen Christoph BEKENDORF","Ernst Friedrich CORDS","Johann Friedrich BLEHK","Ann Elisabeth Hedwig TIMM","Magdalena Elisabeth BUß","Helmut Christoph SCHULT","Jochen Friedrich VOSS","Catharina Elisabeth EVERT","Johann Joachim PETERS","Anna Dorothea GANTZEL","Hans Jacob GOOSMANN","Anna Elisabeth SCHWARTZ","Jochim Friedrich Franz KOCH","Ilsabe Charlotte BALZER","Hinrich LANGMAN","Joh[ann] Joch[im] IHDE","Christoph SASS","Christian Daniel WENDT","Johann Jacob Ludwig SCHÖN","Hanß Jochim SCHWARZ","Jacob BOSSOW","Catharina Ilsabe JACOBS","Jochim David JAKOBS","Anna Ilsabe BOSSOW","Johann SOLTWEDEL","Catharina HOGE","Hans Jacob KRÜGER","Anna Elisabeth CORDTS","Hans Jochim KRÖGER","Hans Hinrich HELMS","Hans Joachim WILCK","Christina Marie DOBBERTIN","Elisabeth Sophie SPARMANN","Hartwig Heinrich HINZ","Lisch Dorth BARTEL","Oelgard HAGEN","Marie HINTZ","Johann Hinrich FREUCK","Sophia Maria Catharina DREVS","Hartwig BLEHK","Caspar WARNCKE","Samuel Joachim SCHULT","Dortie Cathrin Ilsabe LEMCKE","Maria Elisabeth PINGELS","Johann EVERT","Dorothea PINGEL","Jürgen Hinrich PETERS","Gregorius Friedrich GOOSMANN","Pagel SCHWARTZ","nn NN","Christopher LANGMAN","Michel HARLOFF","nn KELPIN?","Jonas Joachim BOSSOW","Anna Grethe SOLTWEDEL","Hinrich SOLTWEDEL","Engel MÖLLER","Hans KRÖGER","Anna Maria BEHRENS","Jochim CORDTS","Hans Hinrich HELMS","Marie Welzin","Hans DOBBERTIN","Anna Hinz","Hans Jürgen SPARMANN","Ilse Trincke (?) NEBEL","Maria SEVERIN","Anna Cathrina LEMCKE","Magnus Friedrich BLEHK","Catharina Elisabeth Lange","Johann Benedict SCHULTE","Marie WANDSCHNEIDER","Claaß PINGEL","Johann EVERT","Maria STAMER","Hans GOOSMANN","Ann Trin ELVER","Ann Ilsche NEUMANN","Maria KÖNKE","Claus BOSSOW","Anna BREMER","Maria KRÖGER","Trin Gilau","Paschen BERENS","Maria EHMCKE","Hartwig CORDTS","Hinrich HELMS","Hinrich Welzin","nn NN","Claus NEBEL","Jochim SEVERIN","Magdalena SCHWANCK","Hanß SCHULTE","Johann WANDSCHNEIDER","Anna HOMOTH","Zacharias EVERT","Anna LANGEFELDT","Peter ELVER","Catrin LAUDAHN","Claus BOSSOW","Anna VÖGE","Jochim SEVERIN","Maria FEILES","Hans SCHWANCK","Len STECKER","Johann SCHULTE","Catrina Bartels","Hinrich SCHWANCK","Engel BRANDT","Hans STECKER","Len STECKER","Hans BRANDT","Chim STECKER"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[null,null,null,null,53.79311694384498,52.13053684611535,52.13053438806339,52.249056896191,53.62974145918722,53.62942146637216,53.62943913480397,52.53198100606817,52.84185171754407,52.13059387216336,52.07424548026928,52.20171149622193,53.62970388078653,53.62965299579614,53.62977151145293,53.62951563681514,53.55769162744665,53.55766400668993,53.62965999906054,53.59149964747261,50.72103441731772,50.72083997281474,52.20174965046933,52.20182494998789,54.3604604315294,54.36058773437273,53.69983661945547,53.69985027576686,53.62946137472392,53.70532352532876,53.67339722374473,53.67334810650526,53.69206011659318,53.62970205943073,53.57768971562861,53.55795090998997,53.57306877936302,53.5729420059952,53.5915453822568,53.59136033610822,53.59136108479164,50.70915066767373,50.70915018325104,null,null,52.20180292027165,null,52.19168544379697,52.19132131956491,54.24069084534627,54.36022206608886,53.62969586860594,54.24050032350868,53.54548540694686,53.60270031703757,53.65899144345914,53.65882795620226,null,53.56631568523683,53.69096474140603,53.69106976452051,null,53.67312431950402,53.67330286369818,53.67314986009301,53.70925939782094,53.75477653166205,53.6960730846461,53.69609441407696,53.55793916724836,53.55777402789685,53.55208814068492,53.55777949039116,53.53098527701721,53.53122903274699,53.53093135447298,53.52836871604836,53.59144554710043,53.59158225252153,53.60072093505105,53.60087637070278,53.59131291316906,53.5913396196398,50.70936740252245,50.69988666052213,52.24878738432201,52.19164336437854,52.31287744710091,52.16670274934145,52.16664198093796,54.37053615846043,54.37059709926914,54.24061930470225,54.24066559990654,54.24065711846659,54.24076378475679,54.24051948436564,null,53.59149252601713,53.59122599437973,53.54567995574623,53.54541913806479,53.49198974278821,53.49180803999938,53.65908559965687,53.6587761456239,53.52899960368975,53.5122636375756,53.56635154953478,53.56626626904355,53.68639822976976,53.69683892603033,53.77982282170151,53.65014223045828,53.65012421619864,53.67339810705986,53.67312753327545,53.68325566956895,53.68331252873643,53.70921282491014,53.70942895400487,53.75450303382296,53.75465310222162,53.63310721816002,53.63304131410514,53.69602853849857,null,53.48390170051139,53.53016926639182,53.5577202863505,53.55776558995684,53.58111220322186,53.58113428654055,53.58083854426108,53.58084142492413,53.53118603246799,53.53110622459045,53.52123490141323,53.52150092315934,53.60072080326024,53.61394992271913,53.53652777124001,null,53.59138803691054,53.5912744274551,53.59122570900405,53.59124452216103,53.55781577287353,53.55778264831229,53.5320787913233,53.51510527556268,53.59155552492579,53.59126803296571,53.35906416707523,54.24072596814484,54.34821158923572,53.46225449340083,null,53.59004009472672,53.54567192634046,53.54544961204948,53.47753633146547,53.50827556616711,null,53.56604524924075,53.54041150507247,53.54074670388875,53.67322599682986,53.73051447988534,53.69213387663468,53.69191957535903,null,null,null,53.75854072726173,53.75956546894592,53.63324528648276,53.63326474975218,53.69599939590815,null,53.71350506106205,53.7137231607303,53.55785208356016,53.55781501050619,53.55779566115662,53.55781583268595,null,53.58098491873685,53.58084608373046,null,null,53.53115994322086,53.53116383168427,53.53650419636704,53.53623824920748,null,null,53.52138402285045,53.52137376554981,53.60098732685568,53.60067455416117,null,53.53659603065364,53.536304440221,53.59133637838727,53.59136585585642,null,53.46997010059124,53.53203880893327,53.53188272425393,53.53186601486988,53.53181320281728,53.61766093159551,53.61754220257104,53.59120719500407,53.5914354628888,null,53.50826899545845,53.69203067551219,53.6024166571673,53.74960342024854,53.55795532822189,null,53.51512335681729,53.55794210999495,53.55780962662063,53.5807252111285,53.58063002730207,null,53.58082970563313,53.53126777998768,53.54557510467526,53.52151721687121,null,null,53.60098188200519,53.6006340481665,53.63308444339606,53.53653418042735,53.67886101083393,53.67900455107038,53.59139613339705,53.36422597205424,53.47011318273339,53.4699166584528,53.53190005784901,53.53191062770486,53.53191976422313,53.53001888977597,53.56706199385496,53.55793684758366,53.59129874561792,53.40534807802877,null,53.74982013674351,53.53009875824377,53.5301645053003,53.61521839652267,53.58076626756144,53.5806845367182,null,null,null,null,53.52147290191809,53.52159665298601,53.62793546378119,53.60092534107184,53.60063034122288,null,53.59121501959022,53.6296756077216,53.47004843548182,null,53.53206258926233,53.53194022460226,53.53179090499189,53.52564774474818,53.34403506633108,53.55775310109416,53.65882021514839,53.53019574110173,53.53011764015751,53.58085368600403,53.58064987261826,53.58075381211471,53.58070824958756,53.5807798661814,53.60018876464311,53.53061396355228,null,53.60098939243862,null,53.48162182017472,53.48345519394437,null,53.48556588999927,53.53192717138101,53.5319589966313,53.38453943936871,53.38448531768498,53.53006804776098,53.53003068796536,null,53.6008041249794,53.48177713966369,53.48175398769313,53.4835243441713,53.48575945732863,53.48179499412421,53.4815047929734,53.48170204175654,53.48159536350295,53.48177889129957,53.48164664559373],[null,null,null,null,12.17629907402629,11.63653570012376,11.63632677767472,11.6276260072587,11.41459685335625,11.41471314010713,11.41448700800268,13.40595607643692,10.96457704759296,11.6363234787886,11.82519896103218,11.61577337993793,11.41450940407189,11.41449785137353,11.41464982627174,11.41479113708539,11.8287991045367,11.8288920719753,11.41476028321078,11.76734961654683,13.27687086192286,13.2766213570755,11.61595864542341,11.61595685883071,12.60361005013064,12.60382346212268,11.55933120161519,11.55905329608182,11.41475963592092,11.43412058478743,11.70796191413151,11.70770087275198,12.10053845778992,11.41453819219126,11.64987037809035,11.82866764668897,11.73205847384371,11.73173704667464,11.76749290130129,11.76731971455403,11.76736558515411,13.27181791896988,13.27150339088011,null,null,11.61585295768715,null,11.45499424159378,11.45484072114835,12.42719007095527,12.60376399138598,11.41477580632633,12.42735303709405,11.56183840712113,11.54881080200886,11.54734444124987,11.54737334189555,null,11.35761820520209,11.36562361869617,11.36568894440206,null,11.70796092968276,11.7077270820749,11.70771954997955,11.67845672458122,11.6245558303819,11.60518259187453,11.60498825263632,11.82878550762236,11.82866414798182,11.83435268380921,11.8287459359142,11.78760912287962,11.78762276151087,11.7873372873419,11.74870780234001,11.76729432694735,11.76721432836018,11.80775167175261,11.80769169015344,11.76732676749602,11.76718804423809,13.271660893015,13.26709751741523,11.62782622795645,11.45470996260224,11.05443745215917,11.48066570189558,11.48064244802129,12.62182525721935,12.62153387886842,12.42732544141896,12.42725495650032,12.42714919449426,12.42728395355539,12.42711677214112,null,11.76723824336156,11.76720790146086,11.5619669306918,11.56186155714262,11.50675303459354,11.50675386149203,11.54712195325363,11.54737123952601,11.39829704988487,11.37995556646464,11.35752895977097,11.35746682881927,11.3896907248443,11.25920655436106,11.77790206060465,12.16069976737406,12.16078437948031,11.70770001815483,11.70782288631499,12.11046897496041,12.11013527561798,11.67859046407761,11.67840691301618,11.62462727956753,11.62486972311623,11.49264572900944,11.49240007374641,11.605119711651,null,11.85629103775574,11.88791806897149,11.82884898740742,11.82871327538034,13.01784887253474,13.0178744744923,11.92656760767838,11.92652616675096,11.78743833552469,11.78742211696021,11.64318706777217,11.64341513230772,11.80761728112167,11.80168387275273,11.75900303564062,null,11.76726888132915,11.76717137351343,11.76743347477848,11.76741431170152,11.82861065666024,11.82884963822989,11.84126458011232,11.86709776876494,11.76711584720695,11.76729496971397,8.857770169274696,12.42725109909652,12.39800417253301,13.55018640781585,null,11.8264877050817,11.56192513474822,11.56192112495657,11.43844455965869,11.42738845690051,null,11.35733544719275,11.3535708181547,11.35358729175246,11.70763470991226,12.14586721994104,12.10041529948236,12.10058259670939,null,null,null,11.65500925596897,11.6729895444179,11.4925976379822,11.49265398774929,11.60497989327814,null,11.63403204982038,11.63401971767247,11.82867660406139,11.82857426478676,11.82866610664371,11.82889848551294,null,11.92657674110858,11.92682246205136,null,null,11.78743424221193,11.78762201600922,11.75907026124317,11.75888846643055,null,null,11.64346642111214,11.64315167022953,11.80799792788699,11.807607448084,null,11.75885206725774,11.75892805287968,11.76720296577001,11.76746495770542,null,11.93916596442303,11.84124177982686,11.8413763411873,11.84141182804769,11.8415565302317,11.76121534140464,11.7613951923714,11.76727291384572,11.76734617069959,null,11.42717939030863,12.10053830504762,11.54888543960601,11.98139862141572,11.82858212922085,null,11.86720823493144,11.82876110792672,11.82875411371197,11.92669873591466,11.92673648872068,null,11.92666435620552,11.78762318265485,11.56196410551816,11.64321055940445,null,null,11.80769694050271,11.80780149732269,11.49239388906211,11.75908379159374,11.52865958346166,11.52866060966356,11.76715151980929,11.88423904771507,11.93932594949137,11.93905426683379,11.8413789210082,11.84155662475759,11.84154237475991,11.88798062394327,11.77652778640306,11.8285567810771,11.76726809416348,12.12188757587178,null,11.98141419518916,11.88784012341816,11.88777622983381,11.94216159793986,11.92669020326016,11.9267713457711,null,null,null,null,11.64336053447202,11.64345054010488,11.85019885376161,11.80799459054992,11.80793778864434,null,11.76730360121401,11.77024115371052,11.9392150257091,null,11.8414881963972,11.84159812806509,11.84141224418106,12.10820403245417,11.40782383768186,11.82860698033366,11.54724651388833,11.88785708532231,11.88772649028972,11.92685933318837,11.92682655014042,11.9268785730632,11.92678687348086,11.92665938524157,11.48133476844989,11.70794418621361,null,11.80760690118,null,11.68454909026912,11.97724843485467,null,11.89530021682205,11.84133104151273,11.84136971120881,11.24744634341495,11.24730920248702,11.8879125037252,11.88784661452882,null,11.80768439118992,11.68446357211806,11.68423026743643,11.97710890670633,11.89544797366196,11.68447882754207,11.68445306591047,11.68445800486421,11.6843797843853,11.68440322442632,11.68441572969789],{"iconUrl":{"data":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAA9PSURBVHic7d1drGV3Qcbh97TTD1FLpwIhFkpCAWvUCLZqrNUSo15V2ya0mkZFQiWolVtRigrUhN5oiN54ZUI0IjHGiYAmSlJisEBBKgVGSVuodFq9oZRK2+nHjBdrLohW2jNn7f3fa73Pk6zr9c46c/b67bP32WcvwLb9QJKfTfLaJK9KcjjJuSMHDfB4koeSfCHJbUmOJPn0yEEAsAlnJnljknuTnHQ843FPkjeculYAsHg/nuRzGX+DXcpxV5IrTutKA8CO+JUkxzP+prq048kkN53G9QaA4X4/42+kSz/ete+rDgADvT7jb55rOW7c57UHgCF+OH7sP+fxeJLL9vUVAIAt20vyzxl/01zb8bFT1xYAdtJ1GX+zXOtx7T6+DgCwVR/P+BvlWo/b9/F1AJ6FH6nBfC5M8uX4vtqUk0kuSnL/6CGwBmeMHgArck3c/DdpL8lVo0fAWggAmM/lowcUcI1hJgIA5vPy0QMKXDx6AKyFAID5nD96QIHDowfAWggAmM/ZowcUOGf0AFgLAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQ6NHoAcGBXJrlry+f8viQf2fI5gRkJAFi+ryV5aMA5gQXzEgAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQ6NHkC+/9RxYZLnD97CwVwwekCBC5K8e/QIDuThJMeS3JnkM4O3VBMAY7wmyRuSXJ3kosFbYEnOT/Kbo0cwm/uSHEnyp5mCgC3yEsB2XZTkT5LckeQ34uYPdHtZkrck+Zck709y8dg5XQTA9lyf5GiSNyU5c/AWgF2yl+S6JJ9N8guDt9QQAJu3l+RdSd6X5HmDtwDssnOTvDfJOzM9drJBAmDz3pbk5vjPDPBc7CV5e5K3jh6ydgJgs65N8o7RIwAW6JZMb5RmQwTA5rwg0ztbXWOA/Tsj02OoX6/dEDenzbk5fq8f4CAOJ/nt0SPWSgBsxkuTvHn0CIAVuCnJS0aPWCMBsBnXJzln9AiAFTgnyetGj1gjAbAZ3rgCMB+PqRsgAOZ3XpLLR48AWJErknzb6BFrIwDmd0l80h/AnA5lemxlRgJgfi8ePQBghTy2zkwAzM/H/bJtJ0rOSTcvAcxMAMzPNWXbHhlwzkcHnJNuHltn5oLCsp1I8l8DzvtgkpMDzgvMRADAst2bMc/Gv57kiwPOC8xEAMCyfWjguf9u4LmBAxIAsGxHSs8NHJAAgOX6jyT/NPD8tyX58sDzAwcgAGC5bk7y5MDzP5nkdweeHzgAAQDLdGeSPx89Isl7k9w1egSwfwIAlueRJL+Y3fgwnqeT/FySh0cPAfZHAMCynEhyQ5LPjh7yDY4m+flMMQAshACA5Xgs083/A6OHPIO/z/RTicdGDwGeGwEAy3B/kh9L8pejh3wTf5HkyiTHRg8Bnp0AgN32aJJbk3xvkk8N3vJc3JHpz7a+NWP+RgHwHAkA2D0nk3wy06/5vTLTzXRJb7L770zRckmSt2f6t/i7AbBjDo0ewGzuSfJXo0dw2r6e6cZ5b6Zn0Q+MnTOLB5Lccuq4MMllSV6e6c+6fuvAXRzM65JcPHoEBycA1uNopmeKsIuOxXsD1uJ7IgBWwUsAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAABAIQEAAIUEAAAUOjR6ALP5iST3jB7BaXsqyVeT3Jfkk0mOJPn3oYvmc0mSq5NcmuRlSc6Px54le/HoAbCrbkhy0uGY4Tia5NeTnJXlOSvJTUn+LeOvo2Mdxw1hVl4CgN11SZI/TvK5TM+gl+KaJJ9P8kdJvmvwFuD/IQBg970yyd8keU92+3t2L8nvJfnrJK8YOwV4Nl6Hg+V4S5KXJrk+03sGdslZSd6f6dk/sAC7/GwC+L+uTfKHo0c8g/fEzR8WRQDA8tyU5MbRI77Bm5P86ugRwP4IAFimP0jyotEjkrwwya2jRwD7JwBgmb49yW+NHpHkd5KcN3oEsH8CAJbr15J8x8DzvzDJmwaeHzgAAQDLdXaSqwae/2dObQAWSADAso38gKAlfTgR8L8IAFi21w4895UDzw0ckACAZTuc5AUDzvuiJM8fcF5gJgIAlu+CknMCMxIA83ty9ADqPG/AOc8dcE66eWydmQCY3yOjBwCs0MOjB6yNAJjfl0YPAFihL44esDYCYH53J3lo9AiAFflKkntHj1gbATC/p5J8aPQIgBX5QJKnR49YGwGwGUdGDwBYEY+pGyAANuNI/LgKYA5fSvLB0SPWSABsxhNJ3jF6BMAKvC3J8dEj1kgAbM6fJblj9AiABftYkveNHrFWAmBzTiS5Jsmx0UMAFug/k1yX6bGUDRAAm/VApv/Aj44eArAgj2Z6AnX/6CFrJgA27/YkP5rkvtFDABbgWKa/cvnxwTtWTwBsx51JfiTJh0cPAdhh/5Dksnj/1FYIgO15MMlPJvmpTEEAwOTzSa5P8tOZXvtnCw6NHlDoH5NcmuQHM73GdVWS705y5shRAFv0dJKjSf420+emfCLJyaGLCu2NHkCS5OwkFyY5L6JsyY5k+jpu22uy/Z8qvTrJp7d8zmR6ffjqAedlHk8l+Vqmr+MTg7fUc7PZDU/EX7paAx9WsnnHk3xq9AhYA+8BAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCAgAACgkAACgkAACgkAAAgEICAAAKCQAAKCQAAKCQAACAQgIAAAoJAAAoJAAAoJAAAIBCh0YPAA7svCSHB5wTWDABAMv3kdEDgOXxEgAAFBIAAFBIAABAIQEAAIUEAAAUEgAAUEgAAEAhAQAAhQQAABQSAABQSAAAQCEBAACFBAAAFBIAAFBIAMB8nhg9oMDjowfAWggAmM9XRw8o4BrDTAQAzOee0QMK3D16AKyFAID5fHT0gAKuMcxkb/QAWJHvTHJ/fF9tyokkL0ny4OghsAZ+AgDzeSDJHaNHrNgn4uYPsxEAMK9bRw9YsXePHgAA38xHk5x0zHrcHi+tALDjfijT76uPvmmu5XgsyaX7+goAwCC/lPE3zrUcb9zntQeAoW7J+Jvn0o937vuqA8AOuDHJ8Yy/kS7tOB7P/AFYuCuSfCbjb6pLOf41yeWndaUBYMeckeSXM32U7egb7K4edyd5ffx6MmyFX6uB7Xt1kquTXJnkVUkuSPItQxdt32NJvpLkC0luS3Ik0zN/YEv+B7ETEJuZ+dIfAAAAAElFTkSuQmCC","index":0},"iconRetinaUrl":{"data":18,"index":0},"iconWidth":18},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["Juliane NIEMANN","Ulrike NIEMANN","Wolfgang Hermann NIEMANN","Renate Gabriele HÜBLER","Egon Harry Peter Kurt NIEMANN","Eva-Maria Erika Emma KÖPKE","Werner Siegfried HÜBLER","Anneliese Hertha Helene BELLING","Paul Albert Otto Hans NIEMANN","Ida Frieda Bertha MEIER","Hermann Friedrich Martin KÖPKE","Ilse Frieda Berta Wilhelmine LÜTH","Max Emil HÜBLER","Bertha Auguste KUMMETZ","Walter Bernhardt Richard BELLING","Auguste Hertha Wilhelmine DUROW","Christoph Joachim Theodor NIEMANN","Christine Marie Sophie WEIß","Julius Theodor Joachim MEIER","Dorothea Johanna Marie LAUDEH","Christian Johann Heinrich KÖPKE","Maria Sophia Caroline KRÜGER","Heinrich Friedrich Wilhelm Carl LÜTH","Maria Sophia Wilhelmine LÜTH","Friedrich August HÜBLER","Christiane Conkordie HÜBLER","Christian Peter Johan BELLING","Wilhelmine Elisabeth HERZBERG","Carl Wilhelm August Heinrich DUROW","Helene Johanne Christine BRANDT","Christoph Christian Friedrich NIEMANN","Elisabeth Wilhelmine SCHELENSKY","Johann Jochim Christoph WEIß","Sophia Dorothea Friederica PLEß","Friedrich Christoph Joachim MEIER","Catharina Magdalena Dorothea DANKERT","Johann Jochim LAUDEH","Louise Sophie Elisabeth TESS","Friedrich Christian Theodor KÖPKE","Johanne Friederike Magdalene NORRMANN","Johann Christian  Wilhelm KRÜGER","Sophia Dorothea Johanna SCHMIDT","Wilhelm Johann Joachim Carl LÜTH","Sophia Maria Henriette WARNK","Friederike Maria Caroline LÜTH","Friedrich August HÜBLER","Christiane Caroline WEINHOLD","Carl Gottlieb HÜBLER","Kristups KUMETZ","Carl Ludwig BELLING","Marie Elisabeth SCHRÖDER","Johann Friedrich HERZBERG","Wilhelmine Elisabeth TELLS","Johann Nicolaus DUROW","Johanna Sophia Maria THORICK","Johann Christian BRANDT","Maria Friederica Christiana HOHENSTEIN","Ernst Friedrich Heinrich NIEMANN","Christine Marie SCHMIDT","Johann Carl Friedrich SCHALENSKY","Anna Kathrina Christina HARLOFF","Johann Christoph Hartwig WEISS","Maria Magdalena Dorothea BENTHIN","Friedrich Wilhelm PLEß","Marie Elisabeth Henrietha LANGPAAP","Johan Jürgen Hinrich MEYER","Magdalena Maria TIEDE","Joachim Heinrich DANKERT","Catharina Margaretha Friderika SCHULT","Johann Friederich STIER","Elisabeth Dorothea Catharina LAUDEH","Johann Friedrich TESS","Albertina Charlotta Sophia WULF","Carl Georg Friederich KÖPKE","Johanna Maria SCHWARZ","Johann Jochen Christian NORMANN","Maria Dorothea Friederike SOLTWEDEL","Johann Joachim Friederich KRÜGER","Christine Sophie Marie HELMS","Carl Joachim Christian SCHMIDT","Sophia Elisabeth Carolina BEKENDORF","Karl Friedrich LÜTH","Maria Anna Sophia BLECK","Joachim Christian WARNK","Maria Christina Christiana VOSS","Friedrich Christoph LÜTH","Elisabeth Dorothee Henriette GOOSMANN","Carl Gottlob HÜBLER","Johanna Dorothea SCHUBERT","Marie Elisabeth BELLING","Johann Friedrich HERZBERG","Catharine Elisabeth EILERT","Johann Christian TELLS","Anna Elisabeth DEUMELANDT","Clas DUROW","Anna HORST","Hinnrich THORICK","Greth Marie MAASS","Johann Christian BRANDT","Magdalena Maria Gustava DIEFS","Johann Friedrich HOHENSTEIN","Anna Maria Dorothea LANGHOFF","Carl Jochim Andreas NIEMANN","Lehn Fieck Dorothea BARTELS","Carl Caspar SCHMIDT","Lene Marie Lisch HAMDORF","Johann Joachim Friedrich SCHALENSKY","Catarina Elisabeth Sophia IHDE","Johann Franz HARLOFF","Margareta Juliana BLOHM","Johann Hinrich Ludewig WEISS","Catharina Dorothea HINRICHS","Johan Jochim BENTIEN","Sophia Maria KREMER","Greth Liesch KÄHLER","Christian Friedrich LANGPAAP","Trien Maria ASMUS","Martin TIEDE","nn NN","Johan Jochim Dethloff DANKERT","Charlotte DREPHAL","David Wilhelm Hinrich Otto SCHULT","Margaretha Maria Dorothea WEDEL","Christian  Heinrich STIER","Maria Sophia NECHELS","Christian Hinrich LAUDEH","Maria WIGMANN","Carl Andreas TESS","Anna Greth Liesch WENDT","Jochim Christian WULF","Friederica Dorothea Maria ROHDE","Johan Friederich Philipp KÖPKE","Maria Sophia JÄCKWITZ","Jacob Georg Christoph SCHWARZ","Anna Ilse Maria JAKOBS","Friedrich Jacob NORMANN","Regina Sophia Hanna SCHMIDT","Johann Carl SOLTWEDEL","Anna Maria Isabe Sophia KOPE","Christian Johann Christoph KRÜGER","Sophia Margaretha Maria Magdelena SCHWARZ","Johann Christoph Friedrich HELMS","Marie Lies Dorthe HOGGE","Bernd Hartwig SCHMIDT","Catharina Ilsabe Maria LENHARDT","Johann Friederich Christian BEKENDORF","Dorothea Sophia CORDS","Jürgen Heinrich LÜTH","Anna Magdalena Juliana MAEDE","Magnus Friedrich BLECK","Elisabeth Dorothea MAU","Jochim Christoph Friederich Johann WARNCKE","Magdalene Dorothea SCHULZ","Hans Hinrich Jacob VOSS","Catarina Elisabeth Dorothea PETERS","Jacob Heinrich GOOSMANN","Christina Sophia KOCH","Adelheid WEIDEMANN","Michel MAASS","An Ballrüß","Ilse GALMBECK","Joachim Christopher BARTELS","Dorothea LANGMAN","Jürgen Hinrich HAMDORF","Marie Lise HARNACK","Friederich IHDE","Marg[areta] Dorothea VOGLER","Otto Johann HARLOFF","Claus BENTIEN","Hans Hinrich Christian KREMER","Marie Liese KÄHLER","Joachim Friedrich DANKERT","Christiane BENICK","Gerd Carl WEDEL","Maria Dorthi Sophie SASS","Hyeronymus Christian Joachim STIER","Elisabeth Margaretha FREUCK","Dorothea Sophia PREEN","Hans Christian LAUDEH","nn NN","Johann Jochen Christian WENDT","Anna Elisabeth REBBIN","Johann Friedrich WULF","Wilhelmina Sophia SCHÖN","Peter Jochim RHODE","Christina Dorothea HASSELBRINCK","Jochim Hinrich SCHWARZ","Dorothea Maria BOSSOW","Pagel David JAKOBS","Elisabeth Sophia LENTZ","Franz Christoph SCHMIDT","Hans Jacob SOLTWEDEL","Christina Eva KOEPCKE","Joachim Christoph KOPE","Anna Maria Dorthea KRÜGER","Johann Friedrich KRÖGER","Hedewig FÖLZER","Ernst SCHWARZ","Anna Sophia NN","Fritz Johann Christian Hinrich HELMS","Catrhin Elisabeth Dorthie WILCK","Johann HOGGE","J. Marie Lies WARNCKE","Johann Wilhelm SCHMIDT","Hans Jacob LEHNHARDT","Thrien Juliana HINZ","Jürgen Christoph BEKENDORF","Ernst Friedrich CORDS","Johann Friedrich BLEHK","Ann Elisabeth Hedwig TIMM","Magdalena Elisabeth BUß","Helmut Christoph SCHULT","Jochen Friedrich VOSS","Catharina Elisabeth EVERT","Johann Joachim PETERS","Anna Dorothea GANTZEL","Hans Jacob GOOSMANN","Anna Elisabeth SCHWARTZ","Jochim Friedrich Franz KOCH","Ilsabe Charlotte BALZER","Hinrich LANGMAN","Joh[ann] Joch[im] IHDE","Christoph SASS","Christian Daniel WENDT","Johann Jacob Ludwig SCHÖN","Hanß Jochim SCHWARZ","Jacob BOSSOW","Catharina Ilsabe JACOBS","Jochim David JAKOBS","Anna Ilsabe BOSSOW","Johann SOLTWEDEL","Catharina HOGE","Hans Jacob KRÜGER","Anna Elisabeth CORDTS","Hans Jochim KRÖGER","Hans Hinrich HELMS","Hans Joachim WILCK","Christina Marie DOBBERTIN","Elisabeth Sophie SPARMANN","Hartwig Heinrich HINZ","Lisch Dorth BARTEL","Oelgard HAGEN","Marie HINTZ","Johann Hinrich FREUCK","Sophia Maria Catharina DREVS","Hartwig BLEHK","Caspar WARNCKE","Samuel Joachim SCHULT","Dortie Cathrin Ilsabe LEMCKE","Maria Elisabeth PINGELS","Johann EVERT","Dorothea PINGEL","Jürgen Hinrich PETERS","Gregorius Friedrich GOOSMANN","Pagel SCHWARTZ","nn NN","Christopher LANGMAN","Michel HARLOFF","nn KELPIN?","Jonas Joachim BOSSOW","Anna Grethe SOLTWEDEL","Hinrich SOLTWEDEL","Engel MÖLLER","Hans KRÖGER","Anna Maria BEHRENS","Jochim CORDTS","Hans Hinrich HELMS","Marie Welzin","Hans DOBBERTIN","Anna Hinz","Hans Jürgen SPARMANN","Ilse Trincke (?) NEBEL","Maria SEVERIN","Anna Cathrina LEMCKE","Magnus Friedrich BLEHK","Catharina Elisabeth Lange","Johann Benedict SCHULTE","Marie WANDSCHNEIDER","Claaß PINGEL","Johann EVERT","Maria STAMER","Hans GOOSMANN","Ann Trin ELVER","Ann Ilsche NEUMANN","Maria KÖNKE","Claus BOSSOW","Anna BREMER","Maria KRÖGER","Trin Gilau","Paschen BERENS","Maria EHMCKE","Hartwig CORDTS","Hinrich HELMS","Hinrich Welzin","nn NN","Claus NEBEL","Jochim SEVERIN","Magdalena SCHWANCK","Hanß SCHULTE","Johann WANDSCHNEIDER","Anna HOMOTH","Zacharias EVERT","Anna LANGEFELDT","Peter ELVER","Catrin LAUDAHN","Claus BOSSOW","Anna VÖGE","Jochim SEVERIN","Maria FEILES","Hans SCHWANCK","Len STECKER","Johann SCHULTE","Catrina Bartels","Hinrich SCHWANCK","Engel BRANDT","Hans STECKER","Len STECKER","Hans BRANDT","Chim STECKER"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[50.69950823539794,62.25135263351164],"lng":[8.855965737885052,21.61007533960734]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="version-2" class="level3">
+<h3 class="anchored" data-anchor-id="version-2">Version 2</h3>
+<p>Nur Geburtsorte, dafür eingefärbt nach Jahrhundert der Geburt.</p>
+<p>Es gibt außerdem viele verschiedene Hintergrundkarten, da ist noch das optimale zu wählen…</p>
+<p>siehe z.B. http://leaflet-extras.github.io/leaflet-providers/preview/</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">brewer.pal</span>(<span class="fu">length</span>(<span class="fu">levels</span>(data<span class="sc">$</span>Geburt)), <span class="st">"Greens"</span>)[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"#aaaaaa"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lev <span class="ot">&lt;-</span> <span class="fu">levels</span>(data<span class="sc">$</span>Geburt)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">colorFactor</span>(<span class="at">palette =</span> col, data<span class="sc">$</span>Geburt)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(data) <span class="sc">|&gt;</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># addProviderTiles("OpenStreetMap.DE",</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                  options = providerTileOptions(noWrap = TRUE)) |&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#addProviderTiles(providers$CartoDB.Positron) |&gt; </span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.NatGeoWorldMap) <span class="sc">|&gt;</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="sc">~</span>lon1x, <span class="sc">~</span>lat1x, <span class="at">radius =</span> <span class="dv">4</span>, <span class="co">#fillOpacity = 0.4,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                   <span class="co">#clusterOptions = 1,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="sc">~</span><span class="fu">cols</span>(Geburt), </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="sc">~</span><span class="fu">str_c</span>(VORNAME, <span class="st">" "</span>, NAME)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="st">'bottomright'</span>, <span class="at">pal =</span> cols, <span class="at">values =</span> lev,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">'Geburt'</span>, </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">opacity =</span> <span class="dv">1</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="htmlwidget-7006731a298e7a158db7" style="width:100%;height:464px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7006731a298e7a158db7">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[53.62997062989734,53.6311417919429,53.63012506150771,52.20271686637663,53.63069579682443,53.59256218659841,52.47653390561957,52.20148992067836,53.62783948996422,53.63123595795073,53.55880065071228,53.59147971915696,50.72202986295019,54.89961811561194,52.2016034889061,54.3592936686907,53.65994044896644,53.70576872172319,53.67389969002661,53.6951233173119,53.55041484351437,53.5295443516722,53.58974144222457,53.59275466833599,50.70775973757431,50.70960996959154,52.20133121701591,52.1927406460708,54.23926884140801,54.24073149182536,53.54448559839967,53.65867034284734,53.56682120750081,53.68781531188056,53.73062318622899,53.67464130366427,53.75588841331918,53.69639914052227,53.55683555719554,53.55129584115446,53.53014849875905,53.53524387136996,53.58968981454112,53.5310420780709,53.59177585638184,50.70888469410949,null,50.69950823539794,54.89831721749027,52.24870801969488,52.25962734986097,52.19166641462409,52.16724922702964,54.36918540659785,54.24167195068561,54.24196320612245,54.24189765232411,53.57259510103297,53.57096623319481,53.49389354546462,53.66039517291226,53.9329710020287,53.56518133269046,53.70806769554094,53.67178178633041,53.78123485240918,53.64977560184915,53.67147250750121,53.68776356456503,53.71173759837486,53.75649804941695,53.67892458141372,53.71451361018363,53.6158039732866,53.55893873358443,53.6204480902575,53.58039312292374,53.53245173979309,53.52250291028022,53.60158375039436,53.5297544140231,53.5905038687732,53.61336713699085,53.46879393699858,53.53187028890625,53.59070424914044,53.5904190373119,50.72169517423995,50.73262918215879,null,52.19157183535956,null,52.16846866173241,52.1685461215539,54.36894231830217,54.37761195189766,53.35868883447572,54.37091266537234,53.46095837504399,54.24022704039962,53.3218050202936,54.15578828508146,53.55607090174518,53.60015116191767,54.09947133332137,53.54661536641829,53.94059162542783,53.50765912012701,53.66019474037234,53.65819208355863,null,null,53.72589405056388,53.56588928371556,53.72770054208394,null,null,null,null,53.67275402376634,53.59006177821066,53.70356852743495,53.69137129840907,53.68056231212672,53.71539931274894,53.75943315084502,53.75724543512371,53.71040749018416,53.63260694083795,53.75110274078678,53.69440245145132,53.55264804130029,53.53134303207193,53.55920508833155,53.55901826178114,53.6208166399127,null,53.58268164394162,53.68948274252694,53.52974392629173,53.53684010476209,53.52119187460151,53.52255801702999,53.60081902988739,53.59956852120645,53.53701838829983,53.53510514108613,53.59213584974669,53.63021120252815,53.59170361003429,53.5917734010052,53.36344000552017,53.47095252948161,53.53382245891783,53.53116515641064,53.56838988283724,53.59038332315404,null,54.34661685604155,54.36944965707566,53.46305113173165,53.40357442867123,53.4049414701324,53.55514639640003,null,null,null,53.65903399994188,null,null,null,null,null,null,53.68977590807472,53.6592164634565,53.67959421092328,53.73954681698364,null,null,53.60297023759727,53.64898283785283,53.73460305901487,53.75007433775608,null,null,53.55590595019441,53.51480410215053,53.56113449053056,53.56125052071511,53.59462547956743,53.61475838081837,53.58172690837197,53.68879847139623,53.58071822656337,53.53145104027205,null,null,null,53.54595494674277,53.52265498919096,null,53.52050902882554,53.60270510798991,null,53.60155288363266,53.63494146300611,53.53736250885632,53.59206091619525,53.6477729505051,53.33622650570012,53.48276206178069,53.53015586395711,53.53305526477527,53.52974841256439,null,53.56911296975408,53.55901071677189,53.75653183118142,53.59016393505391,53.36822155563254,null,null,53.60474017870278,null,null,53.52865000325721,null,null,null,53.61407757820115,null,53.57976019074786,53.5795831466766,null,53.59836551156194,53.52300859263222,53.51944329495132,53.60260908201635,53.60269839695952,null,null,null,null,53.68021319348514,53.59308214498833,null,53.47059409565199,null,53.53181951254383,53.53172515084744,53.53275643801838,null,53.52398089110815,null,null,null,53.65750420682281,null,53.53053346488345,null,53.61698968741969,null,53.57973577332049,53.58140974364169,53.58166418879963,53.60054401041494,53.53173248565867,null,null,null,53.59952644631192,53.60114248073492,53.69839937948511,null,null,53.48411835520286,53.48643041770011,null,null,null,null,53.38445056910906,null,null,null,53.40251065911464,null,null,null,null,null,null,null,62.25135263351164,null,53.60073120940868,53.48341843478921,53.48533562333174,53.48597393489759,null,null,null,null,null,null,null,53.60054391263724,null,null,null,null,null,53.82477902738974,53.4829629455626,53.4797124528408,53.48206416253726,null,53.47981552106123],[11.41431383833233,11.41528225809559,11.41506469199378,11.61404921236467,11.41431764858533,11.76730241480674,13.46669067122079,11.61620776247159,11.41349302717801,11.41275001436789,11.82859738724288,11.76557900442574,13.2783391872162,21.60892631349843,11.61552347569559,12.60235938684475,11.54903541068248,11.43312968316935,11.70649556448329,11.60433710086532,11.83339639903959,11.78571489448659,11.76629941838905,11.76557201257925,13.27163745803088,13.27125960360076,11.61445261420235,11.45578676093575,12.42739220881946,12.4288738458829,11.56332089569755,11.54832930975016,11.35682058309298,11.39163565139026,11.75444651228562,11.70684466044996,11.62343187426664,11.60378317438159,11.82862076996714,11.83301412759144,11.78919083406776,11.75748088133111,11.76658288544994,11.84339936821312,11.76841044406518,13.27222864889521,null,13.26836284440942,21.61007533960734,11.62620492436346,11.42275273385178,11.45553084823508,11.48148957170937,12.62134917555878,12.42900698578283,12.42759209200852,12.42539378042351,11.73381576510668,11.54555459706206,11.50799597900305,11.54556655710544,10.96676915770583,11.35556951558311,11.32884687316548,11.16472969079204,11.77920367282629,12.16027381723505,11.70738386006579,12.13813264333755,11.634966517465,11.68739889416806,11.52950975206438,11.63408548591546,11.83586137514934,11.8272179796908,12.98704287847169,11.92581363921873,11.7863180892989,11.64326835320815,11.80744518537093,11.75014176875558,11.76610288915895,11.83365426993091,11.93820148268789,11.8407754381137,11.76858017446864,11.76715350372456,13.27388837921508,13.31123290898949,null,11.45644619672857,null,11.48022078901548,11.48192872743234,12.62239450808091,12.67243856315613,8.855965737885052,12.41604433369301,13.55025055190288,12.42760204599816,14.98952098524589,12.57093494786266,11.82791576466132,11.80887127472386,13.65896986315567,11.5619389547022,12.10554535509795,11.42834596464951,11.54607234305311,11.54660270167123,null,null,11.25756104396395,11.35679169456009,11.28183446188681,null,null,null,null,11.70793292997889,11.76748559543788,12.14537363183834,12.10239559922591,11.52702929647956,11.63303587835356,11.65581959705148,11.68844501902778,11.67723137959968,11.49070029218588,11.97943183475509,11.60640818163846,11.83443079192452,11.92830076145269,11.82975954045244,11.828802043733,12.9864746978771,null,11.92639322411157,12.16114061575383,11.78833823365532,11.75791537005137,11.64213500792552,11.64398554851413,11.80870034807101,11.80629432314746,11.76006683020536,11.75717208653185,11.85163835857064,11.8905499840796,11.76730692936871,11.82773605676703,11.88263454398029,11.94115927395858,11.84090615270529,11.84259057049975,11.77497375371195,11.767779984615,null,12.39946001850478,12.41591901023723,13.55013267331216,12.1199321010232,12.12202495147921,11.95697733305749,null,null,null,11.54673275200911,null,null,null,null,null,null,12.16108858326823,11.54606322232056,11.52856523245703,11.62958684192598,null,null,11.54844243677147,11.50156162167825,11.86631856988911,11.98048302197047,null,null,11.82872317472733,11.86721947890371,11.79523684282843,11.79818601716552,12.98537249320727,11.94049411464371,11.92545775500201,12.16270856870059,11.9265439987069,11.78561442769319,null,null,null,11.56129426875859,11.64259773833882,null,11.64438104210533,11.80632578651905,null,11.80786036137138,11.4931540920455,11.75747411744445,11.76851712171007,11.14162931430992,11.86930484926533,11.97671761613972,11.84287397848591,11.84270877245683,11.88609225104302,null,11.77718308826797,11.82846327796373,11.62636794900596,11.85122684137244,12.10000314967725,null,null,11.55434552405644,null,null,11.88605174423121,null,null,null,11.94090083443634,null,11.92572331887744,11.92478532204945,null,11.48323994397335,11.64475707541425,11.64491563623696,11.80890204589739,11.80890620980058,null,null,null,null,11.52830999924838,11.76923642079364,null,11.94111492282227,null,11.84206449486837,11.84147805717643,11.83965511046592,null,12.16244643644541,null,null,null,11.54793612223565,null,11.88841249156855,null,11.94379079757426,null,11.92576302613765,11.92590830856264,11.92522777348552,11.48221249277573,11.705887039629,null,null,null,11.80859272931442,11.80711250482518,11.56028913478069,null,null,11.9771643463837,11.89348918879889,null,null,null,null,11.24801134352404,null,null,null,12.0106950829437,null,null,null,null,null,null,null,15.08999142372552,null,11.8059571131656,11.68307814125773,11.97723239666671,11.89676179827862,null,null,null,null,null,null,null,11.80761454796437,null,null,null,null,null,11.56853310627826,11.68241473448426,11.68269556940123,11.68545014092661,null,11.68635370245818],4,null,null,{"interactive":true,"className":"","stroke":true,"color":["#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#31A354","#31A354","#006D2C","#006D2C","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#74C476","#74C476","#74C476","#31A354","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#A1D99B","#74C476","#AAAAAA","#74C476","#AAAAAA","#AAAAAA","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#A1D99B","#74C476","#AAAAAA","#74C476","#74C476","#AAAAAA","#AAAAAA","#A1D99B","#AAAAAA","#A1D99B","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#74C476","#A1D99B","#A1D99B","#74C476","#74C476","#74C476","#AAAAAA","#A1D99B","#74C476","#A1D99B","#A1D99B","#AAAAAA","#74C476","#74C476","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#C7E9C0","#C7E9C0"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#006D2C","#31A354","#31A354","#006D2C","#006D2C","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#31A354","#74C476","#74C476","#74C476","#74C476","#31A354","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#A1D99B","#74C476","#AAAAAA","#74C476","#AAAAAA","#AAAAAA","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#AAAAAA","#74C476","#AAAAAA","#74C476","#74C476","#74C476","#74C476","#74C476","#74C476","#A1D99B","#74C476","#AAAAAA","#74C476","#74C476","#AAAAAA","#AAAAAA","#A1D99B","#AAAAAA","#A1D99B","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#74C476","#A1D99B","#A1D99B","#74C476","#74C476","#74C476","#AAAAAA","#A1D99B","#74C476","#A1D99B","#A1D99B","#AAAAAA","#74C476","#74C476","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#AAAAAA","#AAAAAA","#A1D99B","#A1D99B","#A1D99B","#A1D99B","#C7E9C0","#C7E9C0"],"fillOpacity":0.2},null,null,["Juliane NIEMANN","Ulrike NIEMANN","Wolfgang Hermann NIEMANN","Renate Gabriele HÜBLER","Egon Harry Peter Kurt NIEMANN","Eva-Maria Erika Emma KÖPKE","Werner Siegfried HÜBLER","Anneliese Hertha Helene BELLING","Paul Albert Otto Hans NIEMANN","Ida Frieda Bertha MEIER","Hermann Friedrich Martin KÖPKE","Ilse Frieda Berta Wilhelmine LÜTH","Max Emil HÜBLER","Bertha Auguste KUMMETZ","Walter Bernhardt Richard BELLING","Auguste Hertha Wilhelmine DUROW","Christoph Joachim Theodor NIEMANN","Christine Marie Sophie WEIß","Julius Theodor Joachim MEIER","Dorothea Johanna Marie LAUDEH","Christian Johann Heinrich KÖPKE","Maria Sophia Caroline KRÜGER","Heinrich Friedrich Wilhelm Carl LÜTH","Maria Sophia Wilhelmine LÜTH","Friedrich August HÜBLER","Christiane Conkordie HÜBLER","Christian Peter Johan BELLING","Wilhelmine Elisabeth HERZBERG","Carl Wilhelm August Heinrich DUROW","Helene Johanne Christine BRANDT","Christoph Christian Friedrich NIEMANN","Elisabeth Wilhelmine SCHELENSKY","Johann Jochim Christoph WEIß","Sophia Dorothea Friederica PLEß","Friedrich Christoph Joachim MEIER","Catharina Magdalena Dorothea DANKERT","Johann Jochim LAUDEH","Louise Sophie Elisabeth TESS","Friedrich Christian Theodor KÖPKE","Johanne Friederike Magdalene NORRMANN","Johann Christian  Wilhelm KRÜGER","Sophia Dorothea Johanna SCHMIDT","Wilhelm Johann Joachim Carl LÜTH","Sophia Maria Henriette WARNK","Friederike Maria Caroline LÜTH","Friedrich August HÜBLER","Christiane Caroline WEINHOLD","Carl Gottlieb HÜBLER","Kristups KUMETZ","Carl Ludwig BELLING","Marie Elisabeth SCHRÖDER","Johann Friedrich HERZBERG","Wilhelmine Elisabeth TELLS","Johann Nicolaus DUROW","Johanna Sophia Maria THORICK","Johann Christian BRANDT","Maria Friederica Christiana HOHENSTEIN","Ernst Friedrich Heinrich NIEMANN","Christine Marie SCHMIDT","Johann Carl Friedrich SCHALENSKY","Anna Kathrina Christina HARLOFF","Johann Christoph Hartwig WEISS","Maria Magdalena Dorothea BENTHIN","Friedrich Wilhelm PLEß","Marie Elisabeth Henrietha LANGPAAP","Johan Jürgen Hinrich MEYER","Magdalena Maria TIEDE","Joachim Heinrich DANKERT","Catharina Margaretha Friderika SCHULT","Johann Friederich STIER","Elisabeth Dorothea Catharina LAUDEH","Johann Friedrich TESS","Albertina Charlotta Sophia WULF","Carl Georg Friederich KÖPKE","Johanna Maria SCHWARZ","Johann Jochen Christian NORMANN","Maria Dorothea Friederike SOLTWEDEL","Johann Joachim Friederich KRÜGER","Christine Sophie Marie HELMS","Carl Joachim Christian SCHMIDT","Sophia Elisabeth Carolina BEKENDORF","Karl Friedrich LÜTH","Maria Anna Sophia BLECK","Joachim Christian WARNK","Maria Christina Christiana VOSS","Friedrich Christoph LÜTH","Elisabeth Dorothee Henriette GOOSMANN","Carl Gottlob HÜBLER","Johanna Dorothea SCHUBERT","Marie Elisabeth BELLING","Johann Friedrich HERZBERG","Catharine Elisabeth EILERT","Johann Christian TELLS","Anna Elisabeth DEUMELANDT","Clas DUROW","Anna HORST","Hinnrich THORICK","Greth Marie MAASS","Johann Christian BRANDT","Magdalena Maria Gustava DIEFS","Johann Friedrich HOHENSTEIN","Anna Maria Dorothea LANGHOFF","Carl Jochim Andreas NIEMANN","Lehn Fieck Dorothea BARTELS","Carl Caspar SCHMIDT","Lene Marie Lisch HAMDORF","Johann Joachim Friedrich SCHALENSKY","Catarina Elisabeth Sophia IHDE","Johann Franz HARLOFF","Margareta Juliana BLOHM","Johann Hinrich Ludewig WEISS","Catharina Dorothea HINRICHS","Johan Jochim BENTIEN","Sophia Maria KREMER","Greth Liesch KÄHLER","Christian Friedrich LANGPAAP","Trien Maria ASMUS","Martin TIEDE","nn NN","Johan Jochim Dethloff DANKERT","Charlotte DREPHAL","David Wilhelm Hinrich Otto SCHULT","Margaretha Maria Dorothea WEDEL","Christian  Heinrich STIER","Maria Sophia NECHELS","Christian Hinrich LAUDEH","Maria WIGMANN","Carl Andreas TESS","Anna Greth Liesch WENDT","Jochim Christian WULF","Friederica Dorothea Maria ROHDE","Johan Friederich Philipp KÖPKE","Maria Sophia JÄCKWITZ","Jacob Georg Christoph SCHWARZ","Anna Ilse Maria JAKOBS","Friedrich Jacob NORMANN","Regina Sophia Hanna SCHMIDT","Johann Carl SOLTWEDEL","Anna Maria Isabe Sophia KOPE","Christian Johann Christoph KRÜGER","Sophia Margaretha Maria Magdelena SCHWARZ","Johann Christoph Friedrich HELMS","Marie Lies Dorthe HOGGE","Bernd Hartwig SCHMIDT","Catharina Ilsabe Maria LENHARDT","Johann Friederich Christian BEKENDORF","Dorothea Sophia CORDS","Jürgen Heinrich LÜTH","Anna Magdalena Juliana MAEDE","Magnus Friedrich BLECK","Elisabeth Dorothea MAU","Jochim Christoph Friederich Johann WARNCKE","Magdalene Dorothea SCHULZ","Hans Hinrich Jacob VOSS","Catarina Elisabeth Dorothea PETERS","Jacob Heinrich GOOSMANN","Christina Sophia KOCH","Adelheid WEIDEMANN","Michel MAASS","An Ballrüß","Ilse GALMBECK","Joachim Christopher BARTELS","Dorothea LANGMAN","Jürgen Hinrich HAMDORF","Marie Lise HARNACK","Friederich IHDE","Marg[areta] Dorothea VOGLER","Otto Johann HARLOFF","Claus BENTIEN","Hans Hinrich Christian KREMER","Marie Liese KÄHLER","Joachim Friedrich DANKERT","Christiane BENICK","Gerd Carl WEDEL","Maria Dorthi Sophie SASS","Hyeronymus Christian Joachim STIER","Elisabeth Margaretha FREUCK","Dorothea Sophia PREEN","Hans Christian LAUDEH","nn NN","Johann Jochen Christian WENDT","Anna Elisabeth REBBIN","Johann Friedrich WULF","Wilhelmina Sophia SCHÖN","Peter Jochim RHODE","Christina Dorothea HASSELBRINCK","Jochim Hinrich SCHWARZ","Dorothea Maria BOSSOW","Pagel David JAKOBS","Elisabeth Sophia LENTZ","Franz Christoph SCHMIDT","Hans Jacob SOLTWEDEL","Christina Eva KOEPCKE","Joachim Christoph KOPE","Anna Maria Dorthea KRÜGER","Johann Friedrich KRÖGER","Hedewig FÖLZER","Ernst SCHWARZ","Anna Sophia NN","Fritz Johann Christian Hinrich HELMS","Catrhin Elisabeth Dorthie WILCK","Johann HOGGE","J. Marie Lies WARNCKE","Johann Wilhelm SCHMIDT","Hans Jacob LEHNHARDT","Thrien Juliana HINZ","Jürgen Christoph BEKENDORF","Ernst Friedrich CORDS","Johann Friedrich BLEHK","Ann Elisabeth Hedwig TIMM","Magdalena Elisabeth BUß","Helmut Christoph SCHULT","Jochen Friedrich VOSS","Catharina Elisabeth EVERT","Johann Joachim PETERS","Anna Dorothea GANTZEL","Hans Jacob GOOSMANN","Anna Elisabeth SCHWARTZ","Jochim Friedrich Franz KOCH","Ilsabe Charlotte BALZER","Hinrich LANGMAN","Joh[ann] Joch[im] IHDE","Christoph SASS","Christian Daniel WENDT","Johann Jacob Ludwig SCHÖN","Hanß Jochim SCHWARZ","Jacob BOSSOW","Catharina Ilsabe JACOBS","Jochim David JAKOBS","Anna Ilsabe BOSSOW","Johann SOLTWEDEL","Catharina HOGE","Hans Jacob KRÜGER","Anna Elisabeth CORDTS","Hans Jochim KRÖGER","Hans Hinrich HELMS","Hans Joachim WILCK","Christina Marie DOBBERTIN","Elisabeth Sophie SPARMANN","Hartwig Heinrich HINZ","Lisch Dorth BARTEL","Oelgard HAGEN","Marie HINTZ","Johann Hinrich FREUCK","Sophia Maria Catharina DREVS","Hartwig BLEHK","Caspar WARNCKE","Samuel Joachim SCHULT","Dortie Cathrin Ilsabe LEMCKE","Maria Elisabeth PINGELS","Johann EVERT","Dorothea PINGEL","Jürgen Hinrich PETERS","Gregorius Friedrich GOOSMANN","Pagel SCHWARTZ","nn NN","Christopher LANGMAN","Michel HARLOFF","nn KELPIN?","Jonas Joachim BOSSOW","Anna Grethe SOLTWEDEL","Hinrich SOLTWEDEL","Engel MÖLLER","Hans KRÖGER","Anna Maria BEHRENS","Jochim CORDTS","Hans Hinrich HELMS","Marie Welzin","Hans DOBBERTIN","Anna Hinz","Hans Jürgen SPARMANN","Ilse Trincke (?) NEBEL","Maria SEVERIN","Anna Cathrina LEMCKE","Magnus Friedrich BLEHK","Catharina Elisabeth Lange","Johann Benedict SCHULTE","Marie WANDSCHNEIDER","Claaß PINGEL","Johann EVERT","Maria STAMER","Hans GOOSMANN","Ann Trin ELVER","Ann Ilsche NEUMANN","Maria KÖNKE","Claus BOSSOW","Anna BREMER","Maria KRÖGER","Trin Gilau","Paschen BERENS","Maria EHMCKE","Hartwig CORDTS","Hinrich HELMS","Hinrich Welzin","nn NN","Claus NEBEL","Jochim SEVERIN","Magdalena SCHWANCK","Hanß SCHULTE","Johann WANDSCHNEIDER","Anna HOMOTH","Zacharias EVERT","Anna LANGEFELDT","Peter ELVER","Catrin LAUDAHN","Claus BOSSOW","Anna VÖGE","Jochim SEVERIN","Maria FEILES","Hans SCHWANCK","Len STECKER","Johann SCHULTE","Catrina Bartels","Hinrich SCHWANCK","Engel BRANDT","Hans STECKER","Len STECKER","Hans BRANDT","Chim STECKER"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#AAAAAA","#C7E9C0","#A1D99B","#74C476","#31A354","#006D2C"],"labels":["(keine Angabe)","1500 - 1599","1600 - 1699","1700 - 1799","1800 - 1899","1900 - 1999"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"factor","title":"Geburt","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[50.69950823539794,62.25135263351164],"lng":[8.855965737885052,21.61007533960734]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>… hier kommt bald noch mehr …</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
