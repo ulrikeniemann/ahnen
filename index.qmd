@@ -228,12 +228,12 @@ Anteil erfasster Vorfahren an allen möglichen Vorfahren
 
 ```{r}
 dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
-                    Generation) |> filter(row_number() <= n()-1)
+                    Generation) #|> filter(row_number() <= n()-1)
 
 dat <- dat |> select(-Prozent)
 
 dat <- dat |> 
-  mutate(Vorfahren = (2^(1:14))) |> 
+  mutate(Vorfahren = c((2^(1:14)), sum(2^(1:14)))) |> 
   mutate(Prozent = Anzahl / Vorfahren) |> 
   mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ","))
 getTable(dat)
