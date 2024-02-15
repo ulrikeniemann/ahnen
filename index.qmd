@@ -10,12 +10,12 @@ format:
     highlight-style: github
     toc: true
 execute:
-  echo: true
+  echo: false
   warning: false
 # editor: visual
 ---
 
-Inklusive Code.
+Probanden: Juliane und Ulrike Niemann
 
 
 ```{r setup}
@@ -34,10 +34,6 @@ if (!require("lubridate")) install.packages("lubridate"); library(lubridate)
 
 ```
 
-
-# Daten einlesen neu
-
-Anpassung an neue Datenquelle
 
 ```{r}
 ## Daten einlesen und aufbereiten
@@ -88,11 +84,9 @@ AhnTab <- read_excel(AhnenDatei ,
 # EX (RELI_1_DATE_1)
 ```
 
-Jetzt die Spalten auswählen und umbenennen.
-
 
 ```{r}
-# interessante Spalten der Ahnendatei
+# Jetzt die Spalten auswählen und umbenennen.
 
 GedComDatei <- "./data/GedCom.xlsx" # Übersetzungs"-Datei für Spaltenkopf
 
@@ -118,19 +112,38 @@ ZahlDirektAhnen <- ZahlPers - sum(is.na(data$KEKULE))
 # diese Werte in html anzeigen
 ```
 
-Wir haben hier `r nrow(data)` Zeilen eingelesen.
+Bisher wurden `r nrow(data)` Ahnen erfasst, 
+davon sind `r ZahlDirektAhnen` direkte Vorfahren.
 
-Davon sind `r ZahlDirektAhnen` Direkt-Ahnen.
 
-# Daten aufbereiten
-
-Geodaten fixen, Datümer + Alter aufbereiten.
 
 ```{r}
+# Daten aufbereiten
+# Geodaten fixen, Datümer + Alter aufbereiten.
 data <- data |> 
   # Generation ohne ID
-  mutate(Generation = str_split(GENERATION, " ", simplify = TRUE)[, 1] |> unlist(),
-         # Geo-Daten aufbereiten
+  mutate(Generation = str_split(GENERATION, " ", simplify = TRUE)[, 1] |> unlist()) |> 
+  mutate(Generation = as_factor(Generation)) |> 
+  mutate(Generation = fct_recode(Generation, 
+                                 "Generation I (Eltern)" = "I", 
+                                 "Generation II (Großeltern)" = "II", 
+                                 "Generation III (Urgroßeltern)" = "III",
+                                 "Generation IV (Alteltern (Ur-Urgroßeltern))" = "IV",
+                                 "Generation V (Altgroßeltern)" = "V",
+                                 "Generation VI (Alturgroßeltern)" = "VI",
+                                 "Generation VII (Obereltern)" = "VII",
+                                 "Generation VIII (Obergroßeltern)" = "VIII",
+                                 "Generation IX (Oberurgroßeltern)" = "IX",
+                                 "Generation X (Stammeltern)" = "X",
+                                 "Generation XI (Stammgroßeltern)" = "XI",
+                                 "Generation XII (Stammurgroßeltern)" = "XII",
+                                 "Generation XIII (Ahneneltern)" = "XIII",
+                                 "Generation XIV (Ahnengroßeltern)" = "XIV",
+                                 "Generation XV (Ahnenurgroßeltern)" = "XV"
+                                 ))
+
+# Geo-Daten aufbereiten
+data <- data |> mutate(
          lat1 = `GO_GEO_BREITE` |> parse_number(),
          lon1 = `GO_GEO_LAENGE` |> parse_number(),
          lat2 = `TO_GEO_BREITE` |> parse_number(),
@@ -144,22 +157,24 @@ data <- data |>
 # fehlende Werte ersetzen
 data <- data |> 
   # Tod
-  mutate(TODESDATUM = str_replace(TODESDATUM, "ABT ", "1 JAN ")) |> 
-  mutate(TODESDATUM = str_replace(TODESDATUM, "FROM ", "1 JAN ")) |> 
-  mutate(TODESDATUM = str_replace(TODESDATUM, "TO ", "1 JAN ")) |> 
-  mutate(TODESDATUM = str_replace(TODESDATUM, "BEF ", "1 JAN ")) |> 
-  mutate(TODESDATUM = str_replace(TODESDATUM, "AFT ", "1 JAN ")) |> 
+  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "ABT "), "", TODESDATUM)) |> 
+  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "FROM "), "", TODESDATUM)) |> 
+  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "TO "), "", TODESDATUM)) |> 
+  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "BEF "), "", TODESDATUM)) |> 
+  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "AFT "), "", TODESDATUM)) |> 
+  #
   mutate(TODESDATUM = if_else(nchar(TODESDATUM) == 4, 
          str_c("1 JAN ", TODESDATUM), TODESDATUM)) |> 
   mutate(TODESDATUM = if_else(nchar(TODESDATUM) == 8, 
                               str_c("1 ", TODESDATUM), TODESDATUM)) |> 
   mutate(TODESDATUM = dmy(TODESDATUM)) |> 
   # Geburt
-  mutate(GEBURTSDATUM = str_replace(GEBURTSDATUM, "ABT ", "1 JAN ")) |> 
-  mutate(GEBURTSDATUM = str_replace(GEBURTSDATUM, "FROM ", "1 JAN ")) |> 
-  mutate(GEBURTSDATUM = str_replace(GEBURTSDATUM, "TO ", "1 JAN ")) |> 
-  mutate(GEBURTSDATUM = str_replace(GEBURTSDATUM, "BEF ", "1 JAN ")) |> 
-  mutate(GEBURTSDATUM = str_replace(GEBURTSDATUM, "AFT ", "1 JAN ")) |> 
+  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "ABT "), "", GEBURTSDATUM)) |> 
+  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "FROM "), "", GEBURTSDATUM)) |> 
+  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "TO "), "", GEBURTSDATUM)) |> 
+  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "BEF "), "", GEBURTSDATUM)) |> 
+  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "AFT "), "", GEBURTSDATUM)) |> 
+ #
   mutate(GEBURTSDATUM = if_else(nchar(GEBURTSDATUM) == 4, 
                               str_c("1 JAN ", GEBURTSDATUM), GEBURTSDATUM)) |> 
   mutate(GEBURTSDATUM = if_else(nchar(GEBURTSDATUM) == 8, 
@@ -183,11 +198,11 @@ data <- data |>
 # (kein Datumsformat)
 ```
 
-# Deskriptive Analysen
 
-Funktionen für Tabellenerstellung und -darstellung:
 
 ```{r}
+# Deskriptive Analysen
+# Funktionen für Tabellenerstellung und -darstellung:
 # functions für hübsche Tabelle
 computeTable <- function(data = data, var) {
   data |> 
@@ -207,14 +222,28 @@ getTable <- function(tab) {
 } 
 ```
 
-## Generation - nur Direktvorfahren
+## Generation - nur direkte Vorfahren
 
-Sollen 1a und 1b zusammen gezählt werden?
+Anteil erfasster Vorfahren an allen möglichen Vorfahren
 
 ```{r}
-computeTable(data = data[!is.na(data$Generation), ], Generation) |> getTable()
-#
-dat <- computeTable(data = data[!is.na(data$Generation), ], Generation) |> filter(row_number() <= n()-1)
+dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
+                    Generation) |> filter(row_number() <= n()-1)
+
+dat <- dat |> select(-Prozent)
+
+dat <- dat |> 
+  mutate(Vorfahren = (2^(1:14))) |> 
+  mutate(Prozent = Anzahl / Vorfahren) |> 
+  mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ","))
+getTable(dat)
+```
+
+
+```{r}
+# Grafik
+dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
+                    Generation) |> filter(row_number() <= n()-1)
 g <- ggplot(dat, aes(y = Generation, x = Anzahl)) + 
   geom_bar_interactive(stat = "identity", 
                        aes(fill = "#08519C", 
@@ -232,11 +261,17 @@ g <- ggplot(dat, aes(y = Generation, x = Anzahl)) +
     axis.ticks.x = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0))
+                              margin = margin(0, 0, 30, 0)),
+    plot.title.position = "plot"
   )
 #g
 girafe(ggobj = g)
 ```
+
+
+
+
+
 
 ## Geburt / Jahrhundert - Alle
 
@@ -260,7 +295,8 @@ g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) +
     axis.ticks.x = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0))
+                              margin = margin(0, 0, 30, 0)),
+    plot.title.position = "plot"
   )
 #g
 girafe(ggobj = g)
@@ -288,7 +324,8 @@ g <- ggplot(data = data[!is.na(data$Generation), ], aes(y = Generation)) +
     axis.ticks.x = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(size=16, face="bold", 
-                             margin = margin(0, 0, 30, 0))
+                             margin = margin(0, 0, 30, 0)),
+    plot.title.position = "plot"
   )
 girafe(ggobj = g)
 ```
@@ -339,7 +376,8 @@ g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) +
     axis.ticks.x = element_blank(),
     panel.grid = element_blank(),
     plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0))
+                              margin = margin(0, 0, 30, 0)),
+    plot.title.position = "plot"
   )
 girafe(ggobj = g)
 ```
@@ -373,7 +411,8 @@ g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) +
     axis.text.y = element_text(size = 12),
     panel.grid = element_blank(),
     plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0))
+                              margin = margin(0, 0, 30, 0)),
+    plot.title.position = "plot"
   )
 girafe(ggobj = g)
 ```
