@@ -112,25 +112,8 @@ ZahlDirektAhnen <- ZahlPers - sum(is.na(data$KEKULE))
 # diese Werte in html anzeigen
 ```
 
-```{r}
-########## Datum der letzten Aktualisierung der Ahnendaten auslesen #########
-head <- read_excel(AhnenDatei, sheet = '1 HEAD')
-
-# Datum ist immer auf 5, 3
-LetzteAktualisierung <- dmy(head[5, 3])
-LetzteAktualisierung <- as.character(LetzteAktualisierung, format = "%d.%m.%Y")
-
-# yy <- (year(LetzteAktualisierung))
-# dd <- (day(LetzteAktualisierung))
-# mm <- (month(LetzteAktualisierung))
-# LetzteAktualisierung <- paste(dd, mm, yy,sep=".")
-```
-
-
 Bisher wurden `r nrow(data)` Ahnen erfasst, 
 davon sind `r ZahlDirektAhnen` direkte Vorfahren.
-
-Die eingelesene Ahnen-Datei ist vom `r LetzteAktualisierung`.
 
 
 
@@ -349,10 +332,9 @@ girafe(ggobj = g)
 
 ## Erreichtes Alter (bei Tod) - Alle
 
-
+Alter und Altersgruppen berechnen:
 
 ```{r}
-# Alter und Altersgruppen berechnen:
 data <- data |> 
   #mutate(Alter = `TOD JAHR` - `GEB_JAHR`) |> 
   mutate(Altersgruppe = case_when(
@@ -370,9 +352,9 @@ data <- data |>
   ) |> fct_reorder(Alter))
 ```
 
+## Altersgruppen - Alle
 
 ```{r}
-# Altersgruppen - alle
 computeTable(data, Altersgruppe) |> getTable()
 dat <- computeTable(data, Altersgruppe) |> filter(row_number() <= n()-1)
 
@@ -463,29 +445,26 @@ Beim Pop-Up habe ich die Namen hinterlegt.
 
 ### Version 1
 
-Direkt- vs. weitere Vorfahren.
+Geburts- und Sterbeorte mit verschiedenen Icons.
 
 Wiso ist da ein schwedischer noName ??
 
 ```{r}
-data <- data |> 
-  mutate(Vorfahren = if_else(!is.na(KEKULE), "Direkt", "weitere"))
-col <- c("blue", "grey")
-cols <- colorFactor(palette = col, data$Vorfahren)
-# Karte V1
-leaflet(data |> filter(!is.na(lon1))) |>
+birth <- makeIcon("./data/birth.png", 18, 18)
+death <- makeIcon("./data/death.png", 18, 18)
+# Karte V1: mit icons
+leaflet(data) |>
   addTiles() |>
   addProviderTiles("OpenStreetMap.DE",
                    options = providerTileOptions(noWrap = TRUE)) |>
   # setView(lng = mean(data$lon1, na.rm = TRUE), 
   #         lat = mean(data$lat1, na.rm = TRUE), zoom = 8) |> 
-    addCircleMarkers(~lon1x, ~lat1x, radius = 4,
-                   fillColor = col, fillOpacity = 0.7,
-                   weight = 1,
-                   popup = ~str_c(VORNAME, " ", NACHNAME)) |>
-  addLegend('bottomright', pal = cols, values = unique(data$Vorfahren),
-            title = 'Vorfahren',
-            opacity = 1)
+  addMarkers(~lon1x, ~lat1x,
+             icon = birth,
+             popup = ~str_c(VORNAME, " ", NACHNAME)) |>
+  addMarkers(~lon2x, ~lat2x,
+             icon = death,
+             label = ~str_c(VORNAME, " ", NACHNAME))
 
 ```
 
