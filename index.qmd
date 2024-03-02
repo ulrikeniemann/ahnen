@@ -153,6 +153,38 @@ g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) +
 girafe(ggobj = g)
 ```
 
+### Mittlere Anzahl Kinder
+
+```{r}
+#| fig-height: 3
+tab <- data |> 
+  filter(Vorfahren == "Direkt") |> 
+  group_by(Generation) |> 
+  summarise(`Mittelwert Anzahl Kinder` = round(mean(AnzahlKinder), 1),
+            Anzahl = n()) |> 
+  add_row(Generation = "Alle direkten Vorfahren",
+          `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
+          Anzahl = nrow(data |> filter(Vorfahren == "Direkt")))
+getTable(tab)
+#
+g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) + 
+  geom_bar_interactive(stat = "identity", width = 0.5,
+                       aes(fill = "#08519C", 
+                           tooltip = str_c("Generation : ", Generation, 
+                                           " - Mittelwert Anzahl Kinder: ", 
+                                           `Mittelwert Anzahl Kinder`, " Kinder (n = ",
+                                           Anzahl, ")"))) +
+  geom_text(aes(label = `Mittelwert Anzahl Kinder`), 
+            hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Mittlere Anzahl Kinder, direkte Vorfahren nach Generation") +
+  myTheme
+girafe(ggobj = g)
+```
+
+
 --------------------------------------------------------------------------------
 
 
