@@ -6,9 +6,13 @@ lang: de
 format: 
   html:
     theme: minty
+    include-in-header: header.html
     code-fold: true
     highlight-style: github
     toc: true
+    css: styles.css
+    grid:
+      body-width: 1000px
 execute:
   echo: false
   warning: false
@@ -29,101 +33,30 @@ if (!require("scales")) install.packages("scales"); library(scales)
 if (!require("knitr")) install.packages("knitr"); library(knitr)
 if (!require("kableExtra")) install.packages("kableExtra"); library(kableExtra)
 if (!require("ggiraph")) install.packages("ggiraph"); library(ggiraph)
-if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
-if (!require("lubridate")) install.packages("lubridate"); library(lubridate)
+#if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
+#if (!require("lubridate")) install.packages("lubridate"); library(lubridate)
 
 ```
 
 
 ```{r}
-## Daten einlesen und aufbereiten
-
-###########################################################################
-# V.003 8.2.2024                                                          #
-# 1. Anpassung an neue Datenquelle                                        #
-# NAME ==> NACHNAME, GEB JAHR ==> GEB_JAHR, GEO1 BREITE ==> GO_GEO_BREITE #
-# GEO1 LÄNGE ==> GO_GEO_LAENGE, TOD JAHR ==> TOD_JAHR,                    #
-# GEO2 BREITE ==> TO_GEO_BREITE, GEO2 LÄNGE ==> TO_GEO_LAENGE             #
-# GEB JAHR und TOD JAHR müssen aus GEBURTSDATUM und TODESDATUM berechnet  #
-# werden                                                                  #
-###########################################################################
-
-###################################################################
-#  1. GedTool einlesen, reduzieren und Überschriftszeile Klartext #
-###################################################################
-
-# GedTool einlesen
-AhnenDatei <- "./data/GedTool.xlsm"
-
-# die ersten 8 Zeilen einlesen
-AhnTab <- read_excel(AhnenDatei, 
-                     sheet = '1 INDI', 
-                     col_names = FALSE, n_max = 8)
-
-# Überschrift 1.Spalte
-AhnTab [1,1] <- "ID"
-AhnTab [2,1] <- "1"
-
-# Spaltennamen generieren - neue Zeile
-SpaltenNamen <- t(AhnTab)  |> 
-  as.data.frame() |> 
-  unite(SpaltenNamen, sep="_", remove= TRUE, na.rm = TRUE)
-
-# als Vektor speichern
-SpaltenNamen <- SpaltenNamen$SpaltenNamen
-
-# jetzt den Rest einlesen und Spaltennamen vergeben
-AhnTab <- read_excel(AhnenDatei , 
-                     sheet = '1 INDI', 
-                     skip = 9,
-                     col_names = SpaltenNamen)
-
-# Spalten Fehler (Datentyp müsste definiert werden)
-# FB (SOUR_2)
-# AJ (CHR_1_SOUR_1)
-# EX (RELI_1_DATE_1)
-```
-
-
-```{r}
-# Jetzt die Spalten auswählen und umbenennen.
-
-GedComDatei <- "./data/GedCom.xlsx" # Übersetzungs"-Datei für Spaltenkopf
-
-GedComTab <- read_excel(GedComDatei)
-
-GedComTab <- GedComTab[complete.cases(GedComTab), ] # nicht benötigte Daten löschen (Zeilen mit NA)
-
-Auswahl <-  GedComTab$SpaltenName
-
-# Spalten auswählen
-AhnTab <- subset(AhnTab, select = c(Auswahl)) # Anzahl der Spalten benötigte reduzieren
-
-colnames(AhnTab) <- GedComTab$Inhalt # neue Überschriften 
-
-# Anzahl Personen und Anzahl der direkten Vorfahren
-
-data <- data.frame(AhnTab)
-
-ZahlPers <- nrow(data)
-
-ZahlDirektAhnen <- ZahlPers - sum(is.na(data$KEKULE))
-
-# diese Werte in html anzeigen
+source("./R/0_functions.R")
 ```
 
 ```{r}
-########## Datum der letzten Aktualisierung der Ahnendaten auslesen #########
-head <- read_excel(AhnenDatei, sheet = '1 HEAD')
+source("./R/1_DatenEinlesen.R")
+```
 
-# Datum ist immer auf 5, 3
-LetzteAktualisierung <- dmy(head[5, 3])
-LetzteAktualisierung <- as.character(LetzteAktualisierung, format = "%d.%m.%Y")
+```{r}
+source("./R/2_DatenSelektieren.R")
+```
 
-# yy <- (year(LetzteAktualisierung))
-# dd <- (day(LetzteAktualisierung))
-# mm <- (month(LetzteAktualisierung))
-# LetzteAktualisierung <- paste(dd, mm, yy,sep=".")
+```{r}
+source("./R/3_DatenAufbereiten.R")
+```
+
+```{r}
+source("./R/4_FamilienDaten.R")
 ```
 
 
@@ -132,120 +65,17 @@ davon sind `r ZahlDirektAhnen` direkte Vorfahren.
 
 Die eingelesene Ahnen-Datei ist vom `r LetzteAktualisierung`.
 
-
-
-```{r}
-# Daten aufbereiten
-# Geodaten fixen, Datümer + Alter aufbereiten.
-data <- data |> 
-  # Generation ohne ID
-  mutate(Generation = str_split(GENERATION, " ", simplify = TRUE)[, 1] |> unlist()) |> 
-  mutate(Generation = as_factor(Generation)) |> 
-  mutate(Generation = fct_recode(Generation, 
-                                 "Generation I (Eltern)" = "I", 
-                                 "Generation II (Großeltern)" = "II", 
-                                 "Generation III (Urgroßeltern)" = "III",
-                                 "Generation IV (Alteltern (Ur-Urgroßeltern))" = "IV",
-                                 "Generation V (Altgroßeltern)" = "V",
-                                 "Generation VI (Alturgroßeltern)" = "VI",
-                                 "Generation VII (Obereltern)" = "VII",
-                                 "Generation VIII (Obergroßeltern)" = "VIII",
-                                 "Generation IX (Oberurgroßeltern)" = "IX",
-                                 "Generation X (Stammeltern)" = "X",
-                                 "Generation XI (Stammgroßeltern)" = "XI",
-                                 "Generation XII (Stammurgroßeltern)" = "XII",
-                                 "Generation XIII (Ahneneltern)" = "XIII",
-                                 "Generation XIV (Ahnengroßeltern)" = "XIV",
-                                 "Generation XV (Ahnenurgroßeltern)" = "XV"
-                                 ))
-
-# Geo-Daten aufbereiten
-data <- data |> mutate(
-         lat1 = `GO_GEO_BREITE` |> parse_number(),
-         lon1 = `GO_GEO_LAENGE` |> parse_number(),
-         lat2 = `TO_GEO_BREITE` |> parse_number(),
-         lon2 = `TO_GEO_LAENGE` |> parse_number())
-
-data <- data |>
-  rename(TODESDATUMorig = TODESDATUM,
-         GEBURTSDATUMorig = GEBURTSDATUM) |> 
-  mutate(TODESDATUM = TODESDATUMorig, .after = TODESDATUMorig) |>  
-  mutate(GEBURTSDATUM = GEBURTSDATUMorig, .after = GEBURTSDATUMorig)
-# fehlende Werte ersetzen
-data <- data |> 
-  # Tod
-  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "ABT "), "", TODESDATUM)) |> 
-  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "FROM "), "", TODESDATUM)) |> 
-  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "TO "), "", TODESDATUM)) |> 
-  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "BEF "), "", TODESDATUM)) |> 
-  mutate(TODESDATUM = if_else(str_detect(TODESDATUM, "AFT "), "", TODESDATUM)) |> 
-  #
-  mutate(TODESDATUM = if_else(nchar(TODESDATUM) == 4, 
-         str_c("1 JAN ", TODESDATUM), TODESDATUM)) |> 
-  mutate(TODESDATUM = if_else(nchar(TODESDATUM) == 8, 
-                              str_c("1 ", TODESDATUM), TODESDATUM)) |> 
-  mutate(TODESDATUM = dmy(TODESDATUM)) |> 
-  # Geburt
-  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "ABT "), "", GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "FROM "), "", GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "TO "), "", GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "BEF "), "", GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = if_else(str_detect(GEBURTSDATUM, "AFT "), "", GEBURTSDATUM)) |> 
- #
-  mutate(GEBURTSDATUM = if_else(nchar(GEBURTSDATUM) == 4, 
-                              str_c("1 JAN ", GEBURTSDATUM), GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = if_else(nchar(GEBURTSDATUM) == 8, 
-                              str_c("1 ", GEBURTSDATUM), GEBURTSDATUM)) |> 
-  mutate(GEBURTSDATUM = dmy(GEBURTSDATUM))
-
-# Alter 
-data <- data |> 
-  mutate(
-    # genaues Alter
-    Alter = as.integer(interval(GEBURTSDATUM, TODESDATUM)/ years(1)),
-    # Geburt und Tod - nur Jahrhundert
-    Geburt = (year(GEBURTSDATUM)/100) |> floor(),
-    Tod = (year(TODESDATUM)/100) |> floor()) |> 
-  mutate(Geburt = factor(str_c(Geburt, "00 - ", Geburt, "99")) |> 
-           fct_explicit_na("(keine Angabe)")) |> 
-  mutate(Tod = factor(str_c(Tod, "00 - ", Tod, "99")) |> 
-           fct_explicit_na("(keine Angabe)"))
-
-# In argument: `TODESDATUM = dmy(TODESDATUM)` 91 failed to parse
-# (kein Datumsformat)
-```
-
-
-
-```{r}
-# Deskriptive Analysen
-# Funktionen für Tabellenerstellung und -darstellung:
-# functions für hübsche Tabelle
-computeTable <- function(data = data, var) {
-  data |> 
-    group_by({{var}}) |> 
-    summarise(Anzahl = n()) |> 
-    mutate(Prozent = (Anzahl/sum(Anzahl))) |> 
-    adorn_totals("row") |> 
-    mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ",")) |> 
-    mutate({{var}} := factor({{var}}) |> fct_inorder())
-}
-getTable <- function(tab) {
-  tab |> 
-    kable(align = c("l", "c", "c")) |> 
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
-                  full_width = F) |> 
-    row_spec(dim(tab)[1], bold = T)
-} 
-```
+--------------------------------------------------------------------------------
 
 ## Generation - nur direkte Vorfahren
 
-Anteil erfasster Vorfahren an allen möglichen Vorfahren
+Anteil erfasster direkter Vorfahren an allen möglichen Vorfahren
 
 ```{r}
-dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
-                    Generation) #|> filter(row_number() <= n()-1)
+# Tabelle
+dat <- computeTable(data = data |> 
+                      filter(!is.na(Generation) & !str_detect(Generation, "0")), 
+                    Generation) 
 
 dat <- dat |> select(-Prozent)
 
@@ -258,6 +88,7 @@ getTable(dat)
 
 
 ```{r}
+#| fig-height: 4
 # Grafik
 dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
                     Generation) |> filter(row_number() <= n()-1)
@@ -267,54 +98,81 @@ g <- ggplot(dat, aes(y = Generation, x = Anzahl)) +
                            tooltip = str_c(Generation, ": n = ", Anzahl))) +
   scale_y_discrete(limits=rev, name = "Generation / Ebene") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
-  geom_text(aes(label = Anzahl), hjust = -0.1) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
   scale_fill_identity(guide = "none") +
-  ggtitle("Anzahl Vorfahren nach Generation") +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    panel.grid = element_blank(),
-    plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0)),
-    plot.title.position = "plot"
-  )
+  ggtitle("Anzahl direkter Vorfahren nach Generation") +
+  myTheme
 #g
 girafe(ggobj = g)
 ```
 
 
+--------------------------------------------------------------------------------
+
+## Anzahl Kinder - NUR für direkte Vorfahren
+
+Nur für die direkten Vorfahren wurden die Pärchen gesucht. 
+
+Dabei wird angenommen dass Männer gerade Kekule-Nummern und die dazugehörigen 
+Frau ungerade Kekule-Nummern haben.
+
+Für die Paar wurde die gemeinsame Familie gesucht 
+(Vergleich Spalten Familie_1 bis Familie_4, alle Kombinationen).
+
+Wenn kein Partner vorhanden war und keine zweite Familie vorhanden war 
+wurde die erste Familie angenommen, ansonsten keine Angabe (1 Fall).
+
+Zu diesen Familien wurden die Anzahl Kinder aus der Familien-Tabelle angespielt.
+
+Theoretisch auch möglich: matchen der Familien-Tabelle über 
+Wife- und Husband-Spalten an Personen-ID, aber es kann halt mehrere Familien 
+pro Person geben, daher auch nicht weniger fehleranfällig?
+
+Testen und ggf. überdenken oder Daten sehr sauber führen.
+
+Bitte prüfen!!
 
 
+```{r}
+#| fig-height: 3
+# Grafik
+computeTable(data |> filter(Vorfahren == "Direkt"), AnzahlKinder) |> getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data, AnzahlKinder) |> filter(row_number() <= n()-2)
+g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(AnzahlKinder, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Anzahl Kinder") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
+  myTheme
+#g
+girafe(ggobj = g)
+```
+
+--------------------------------------------------------------------------------
 
 
 ## Geburt / Jahrhundert - Alle
 
 ```{r}
+#| fig-height: 2
 computeTable(data, Geburt) |> getTable()
-dat <- computeTable(data, Geburt) |> filter(row_number() <= n()-1)
+# keine Angabe auch raus: -2
+dat <- computeTable(data, Geburt) |> filter(row_number() <= n()-2)
 g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) + 
   geom_bar_interactive(stat = "identity", 
                        aes(fill = "#08519C", 
                            tooltip = str_c(Geburt, ": n = ", Anzahl))) +
   scale_y_discrete(limits=rev, name = "Jahrhundert Geburt") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
-  geom_text(aes(label = Anzahl), hjust = -0.1) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl Vorfahren nach Geburtsjahrhundert") +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    panel.grid = element_blank(),
-    plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0)),
-    plot.title.position = "plot"
-  )
+  myTheme
 #g
 girafe(ggobj = g)
 ```
@@ -322,6 +180,7 @@ girafe(ggobj = g)
 ## Generation und Geburtsjahrhundert - nur Direktvorfahren
 
 ```{r}
+#| fig-height: 4
 # Generation + Geburt
 g <- ggplot(data = data[!is.na(data$Generation), ], aes(y = Generation)) + 
   geom_bar_interactive(aes(fill = Geburt, 
@@ -329,52 +188,29 @@ g <- ggplot(data = data[!is.na(data$Generation), ], aes(y = Generation)) +
                                            after_stat(count)))) +
   scale_y_discrete(limits=rev, name = "Generation / Ebene") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
-  geom_text(aes(label = ..count..), stat = "count", hjust = -0.1) +
+  geom_text(aes(label = ..count..), 
+            stat = "count", hjust = -0.1, size = 8, size.unit = "pt") +
   scale_fill_manual(values = 
                       c(brewer.pal(length(levels(data$Geburt)), "Blues")[-1], "#aaaaaa")) +
   ggtitle("Anzahl Direkt-Vorfahren nach Generation und Geburtsjahrhundert") +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    panel.grid = element_blank(),
-    plot.title = element_text(size=16, face="bold", 
-                             margin = margin(0, 0, 30, 0)),
-    plot.title.position = "plot"
-  )
+  myTheme
 girafe(ggobj = g)
 ```
 
-## Erreichtes Alter (bei Tod) - Alle
+--------------------------------------------------------------------------------
 
+## Erreichtes Alter
 
-
-```{r}
-# Alter und Altersgruppen berechnen:
-data <- data |> 
-  #mutate(Alter = `TOD JAHR` - `GEB_JAHR`) |> 
-  mutate(Altersgruppe = case_when(
-    Alter < 5 ~ "unter 5 Jahre",
-    Alter >=5 & Alter < 10 ~ "5 bis unter 10 Jahre",   
-    Alter >=10 & Alter < 20 ~ "10 bis unter 20 Jahre",    
-    Alter >=20 & Alter < 30 ~ "20 bis unter 30 Jahre",
-    Alter >=30 & Alter < 40 ~ "30 bis unter 40 Jahre",
-    Alter >=40 & Alter < 50 ~ "40 bis unter 50 Jahre",
-    Alter >=50 & Alter < 60 ~ "50 bis unter 60 Jahre",  
-    Alter >=60 & Alter < 70 ~ "60 bis unter 70 Jahre",
-    Alter >=70 & Alter < 80 ~ "70 bis unter 80 Jahre",
-    Alter >=80 ~ "80 Jahre und älter",
-    is.na(Alter) ~ "keine Angabe"
-  ) |> fct_reorder(Alter))
-```
-
+### Alter: Nur Direkt-Vorfahren
 
 ```{r}
-# Altersgruppen - alle
-computeTable(data, Altersgruppe) |> getTable()
-dat <- computeTable(data, Altersgruppe) |> filter(row_number() <= n()-1)
+#| fig-height: 3
+# Altersgruppen - Direkt-Vorfahren
+computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
+  getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
+  filter(row_number() <= n()-2)
 
 g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) + 
   geom_bar_interactive(stat = "identity", 
@@ -383,26 +219,40 @@ g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) +
   scale_y_discrete(limits=rev, name = "Altersgruppe") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
   #coord_flip() +
-  geom_text(aes(label = Anzahl), hjust = -0.1) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
   scale_fill_identity(guide = "none") +
-  ggtitle("Anzahl Vorfahren nach Alter bei Tod") +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    panel.grid = element_blank(),
-    plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0)),
-    plot.title.position = "plot"
-  )
+  ggtitle("Anzahl Vorfahren nach Alter - Direktvorfahren") +
+  myTheme
+girafe(ggobj = g)
+```
+
+### Alter: Alle Vorfahren
+
+```{r}
+#| fig-height: 3
+# Altersgruppen - alle
+computeTable(data, Altersgruppe) |> getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data, Altersgruppe) |> filter(row_number() <= n()-2)
+
+g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "grey", 
+                           tooltip = str_c(Altersgruppe, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Altersgruppe") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  #coord_flip() +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl Vorfahren nach Alter") +
+  myTheme
 girafe(ggobj = g)
 ```
 
 ### Mittleres Alter nach Jahrhunderten - Alle
 
 ```{r}
+#| fig-height: 2
 tab <- data |> 
   filter(!is.na(Alter)) |> 
   group_by(Geburt) |> 
@@ -420,27 +270,21 @@ g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) +
                                " - Mittelwert erreichtes Alter: ", 
                                `Mittelwert Alter`, " Jahre (n = ",
                                Anzahl, ")"))) +
-  geom_text(aes(label = `Mittelwert Alter`), hjust = -0.1) +
+  geom_text(aes(label = `Mittelwert Alter`), 
+            hjust = -0.1, size = 8, size.unit = "pt") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
   scale_fill_identity(guide = "none") +
   ggtitle("Mittleres Alter bei Tod, Alle und nach Jahrhundert der Geburt") +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 12),
-    panel.grid = element_blank(),
-    plot.title = element_text(size=16, face="bold", 
-                              margin = margin(0, 0, 30, 0)),
-    plot.title.position = "plot"
-  )
+  myTheme
 girafe(ggobj = g)
 ```
 
+--------------------------------------------------------------------------------
 
 
+# Karten
 
-# Karten - Alle
-
-Erst mal füge ich den Geodaten ein leichtes "Rauschen" hinzu, damit Dublikate (Vorfahren mit gleichen Geodaten)
+Den Geodaten fügen wir ein leichtes "Rauschen" hinzu, damit Dublikate (Vorfahren mit gleichen Geodaten)
 beim Reinscrollen trotzdem sichtbar werden.
 
 ```{r}
@@ -455,11 +299,8 @@ data <- data |>
 
 ```
 
-Wie können wir die Karte optimal darstellen?
 
-Man kann in die Karten raus- und reinscrollen.
-
-Beim Pop-Up habe ich die Namen hinterlegt.
+Beim Pop-Up sind die Namen hinterlegt.
 
 ### Version 1
 
@@ -468,9 +309,8 @@ Direkt- vs. weitere Vorfahren.
 Wiso ist da ein schwedischer noName ??
 
 ```{r}
-data <- data |> 
-  mutate(Vorfahren = if_else(!is.na(KEKULE), "Direkt", "weitere"))
-col <- c("blue", "grey")
+
+col <- c("#08519C", "grey")
 cols <- colorFactor(palette = col, data$Vorfahren)
 # Karte V1
 leaflet(data |> filter(!is.na(lon1))) |>
@@ -491,7 +331,7 @@ leaflet(data |> filter(!is.na(lon1))) |>
 
 ### Version 2
 
-Nur Geburtsorte, dafür eingefärbt nach Jahrhundert der Geburt.
+Geburtsorte nach Jahrhundert der Geburt.
 
 Es gibt außerdem viele verschiedene Hintergrundkarten, da ist noch das optimale zu wählen...
 
