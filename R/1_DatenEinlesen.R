@@ -6,15 +6,7 @@
 #
 # ..............................................................................
 
-###########################################################################
-# V.003 8.2.2024                                                          #
-# 1. Anpassung an neue Datenquelle                                        #
-# NAME ==> NACHNAME, GEB JAHR ==> GEB_JAHR, GEO1 BREITE ==> GO_GEO_BREITE #
-# GEO1 LÄNGE ==> GO_GEO_LAENGE, TOD JAHR ==> TOD_JAHR,                    #
-# GEO2 BREITE ==> TO_GEO_BREITE, GEO2 LÄNGE ==> TO_GEO_LAENGE             #
-# GEB JAHR und TOD JAHR müssen aus GEBURTSDATUM und TODESDATUM berechnet  #
-# werden                                                                  #
-###########################################################################
+
 
 ###################################################################
 #  1. GedTool einlesen, reduzieren und Überschriftszeile Klartext #
@@ -48,3 +40,4 @@ AhnTab <- read_excel(AhnenDatei ,
 
 
 # ..............................................................................
+

@@ -76,7 +76,7 @@ for (i in 1:nrow(data)){
 # neue Spalten einfügen
 data <- data |> 
   mutate(KekuleNr = parse_number(KEKULE), .after = KEKULE) |> 
-  mutate(GenerationNr, .after = GENERATION) |> 
+  mutate(GenerationNr, .after = KEKULE) |> 
   mutate(Generation = if_else(GenerationNr == 0, NA,
                               as.factor(GenerationNr)), .after = GenerationNr) |> 
   mutate(Generation = fct_recode(Generation,

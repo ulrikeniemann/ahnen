@@ -33,37 +33,41 @@ if (!require("scales")) install.packages("scales"); library(scales)
 if (!require("knitr")) install.packages("knitr"); library(knitr)
 if (!require("kableExtra")) install.packages("kableExtra"); library(kableExtra)
 if (!require("ggiraph")) install.packages("ggiraph"); library(ggiraph)
-#if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
-#if (!require("lubridate")) install.packages("lubridate"); library(lubridate)
+if (!require("igraph")) install.packages("igraph"); library(igraph)
+if (!require("treemap")) install.packages("treemap"); library(treemap)
+if (!require("ggraph")) install.packages("ggraph"); library(ggraph)
 
-```
-
-
-```{r}
 source("./R/0_functions.R")
-```
-
-```{r}
 source("./R/1_DatenEinlesen.R")
-```
-
-```{r}
 source("./R/2_DatenSelektieren.R")
-```
-
-```{r}
 source("./R/3_DatenAufbereiten.R")
-```
-
-```{r}
 source("./R/4_FamilienDaten.R")
 ```
 
 
-Bisher wurden `r nrow(data)` Ahnen erfasst, 
+Bisher wurden `r nrow(data)` Personen erfasst, 
 davon sind `r ZahlDirektAhnen` direkte Vorfahren.
 
 Die eingelesene Ahnen-Datei ist vom `r LetzteAktualisierung`.
+
+```{r}
+#| fig-height: 1.2
+# Vergleich Anzahl Personen und direkte Vorfahren
+tab <- data |> group_by(Vorfahren) |> 
+  summarise(Anzahl = n()) |> 
+  mutate(Vorfahren = c("direkte Vorfahren", "weitere Personen")) |> 
+  mutate(Label = str_c(Vorfahren, "\n n = ", Anzahl)) |> 
+  mutate(color = c("#08519C", "grey"))
+# treemap
+treemap(tab,
+        index="Label",
+        vSize="Anzahl",
+        type="color",
+        vColor = "color",
+        title = "",
+        sortID = "size")
+```
+
 
 --------------------------------------------------------------------------------
 
@@ -106,40 +110,95 @@ g <- ggplot(dat, aes(y = Generation, x = Anzahl)) +
 girafe(ggobj = g)
 ```
 
+--------------------------------------------------------------------------------
+
+## KekuleNr und Versuch eines Stammbaums
+
+Nur zum Verständnis - KekuleNr (hier: bis 60): 
+
+- Männer = gerade KekuleNr, Frauen die darauffolgende ungerade KekuleNr
+- also: Wolfgang = 2, Renate = 3
+- Kind ist damit immer: KekuleNr / 2 -> abgerundet
+- Wolfgangs Eltern: KekuleNr 4+5 -> jeweils / 2 abgerundet: KekuleNr Kind (Wolfgang) = 2
+- der mittlere Knoten (1) repräsentiert hier Juliane+Ulrike
+
+```{r}
+#| fig-height: 7
+#| fig-width: 7
+# https://r-graph-gallery.com/251-network-with-node-size-based-on-edges-number.html
+# create data:
+direkt <- data |> 
+  filter(KekuleNr > 1 & KekuleNr <= 60) |> 
+  select(KekuleNr, VORNAME, NACHNAME, Kind, Generation)
+
+links=data.frame(
+  source=as.character(direkt$KekuleNr),
+  target=as.character(direkt$Kind))
+
+# Turn it into igraph object
+set.seed(2)
+network <- graph_from_data_frame(d=links, directed=F) 
+plot(network, layout=layout.fruchterman.reingold)
+```
+```{r}
+#| fig-height: 6
+#| fig-width: 9
+
+# data: edge list
+edges=data.frame(
+  from=as.character(direkt$Kind),
+  to=as.character(direkt$KekuleNr))
+
+# We can add a second data frame with information for each node!
+name <- unique(c(as.character(edges$from), as.character(edges$to)))
+
+vertices <- data.frame(name = as.numeric(name)) |> 
+  left_join(direkt |> 
+  select(KekuleNr, VORNAME, NACHNAME, Generation), 
+  by = join_by(name == KekuleNr))
+vertices[1, 2] <- "Ulrike + Juliane"  
+vertices[1, 3] <- "NIEMANN" 
+
+mygraph <- graph_from_data_frame( edges, vertices=vertices )
+
+ggraph(mygraph, layout = 'dendrogram', circular = FALSE) +
+  geom_edge_link() +
+  geom_node_text(aes(label = name, vjust = 1.5)) +
+  geom_node_point(aes(color = Generation)) +
+  theme_void()
+```
+
+
+
+```{r}
+#| fig-height: 6
+#| fig-width: 9
+ggraph(mygraph, layout = 'dendrogram', circular = FALSE) +
+  geom_edge_link() +
+  geom_node_text(aes(label = str_c(VORNAME, " ", NACHNAME), 
+                     angle = -90, hjust = -0.1), size = 2) +
+  geom_node_point() +
+  theme_void() +
+  expand_limits(x = c(-0, 0), y = c(-1.7, 1.7))
+```
+
 
 --------------------------------------------------------------------------------
 
-## Anzahl Kinder - NUR für direkte Vorfahren
-
-Nur für die direkten Vorfahren wurden die Pärchen gesucht. 
-
-Dabei wird angenommen dass Männer gerade Kekule-Nummern und die dazugehörigen 
-Frau ungerade Kekule-Nummern haben.
-
-Für die Paar wurde die gemeinsame Familie gesucht 
-(Vergleich Spalten Familie_1 bis Familie_4, alle Kombinationen).
-
-Wenn kein Partner vorhanden war und keine zweite Familie vorhanden war 
-wurde die erste Familie angenommen, ansonsten keine Angabe (1 Fall).
-
-Zu diesen Familien wurden die Anzahl Kinder aus der Familien-Tabelle angespielt.
-
-Theoretisch auch möglich: matchen der Familien-Tabelle über 
-Wife- und Husband-Spalten an Personen-ID, aber es kann halt mehrere Familien 
-pro Person geben, daher auch nicht weniger fehleranfällig?
-
-Testen und ggf. überdenken oder Daten sehr sauber führen.
-
-Bitte prüfen!!
+## Anzahl Kinder - Anzahl der direkten Vorfahren 
 
 
 ```{r}
 #| fig-height: 3
+
+dataDIREKT <- data |> filter(Vorfahren == "Direkt")
+# Tabelle
+computeTable(dataDIREKT, AnzahlKinder) |> getTable()
 # Grafik
-computeTable(data |> filter(Vorfahren == "Direkt"), AnzahlKinder) |> getTable()
 # keine Angabe auch raus: -2
-dat <- computeTable(data, AnzahlKinder) |> filter(row_number() <= n()-2)
-g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) + 
+dat <- computeTable(dataDIREKT, AnzahlKinder) |> filter(row_number() <= n()-2)
+########################################################
+ g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) + 
   geom_bar_interactive(stat = "identity", 
                        aes(fill = "#08519C", 
                            tooltip = str_c(AnzahlKinder, ": n = ", Anzahl))) +
@@ -149,18 +208,16 @@ g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
   myTheme
-#g
 girafe(ggobj = g)
 ```
 
-### Mittlere Anzahl Kinder
+### Mittlere Anzahl Kinder - alle direkten Vorfahren
 
 ```{r}
 #| fig-height: 3
-tab <- data |> 
-  filter(Vorfahren == "Direkt") |> 
+tab <- dataDIREKT |> 
   group_by(Generation) |> 
-  summarise(`Mittelwert Anzahl Kinder` = round(mean(AnzahlKinder), 1),
+  summarise(`Mittelwert Anzahl Kinder` = round(mean(AnzahlKinder, na.rm = TRUE), 1),
             Anzahl = n()) |> 
   add_row(Generation = "Alle direkten Vorfahren",
           `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
@@ -184,7 +241,62 @@ g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) +
 girafe(ggobj = g)
 ```
 
+## Anzahl Kinder - Anzahl der direkten Vorfahren-PAARE 
 
+
+```{r}
+#| fig-height: 3
+
+# Tabelle
+computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), 
+             AnzahlKinder) |> getTable()
+# Grafik
+# keine Angabe auch raus: -2
+dat <- computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), AnzahlKinder) |>
+  filter(row_number() <= n()-2)
+########################################################
+ g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(AnzahlKinder, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Anzahl Kinder") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
+  myTheme
+girafe(ggobj = g)
+```
+
+### Mittlere Anzahl Kinder - alle direkten Vorfahren-PAARE
+
+```{r}
+#| fig-height: 3
+tab <- dataDIREKT |> select(Paar, AnzahlKinder, Generation) |> unique() |> 
+  group_by(Generation) |> 
+  summarise(`Mittelwert Anzahl Kinder` = round(mean(AnzahlKinder, na.rm = TRUE), 1),
+            Anzahl = n()) |> 
+  add_row(Generation = "Alle direkten Vorfahren",
+          `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
+          Anzahl = nrow(data |> filter(Vorfahren == "Direkt")))
+getTable(tab)
+#
+g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) + 
+  geom_bar_interactive(stat = "identity", width = 0.5,
+                       aes(fill = "#08519C", 
+                           tooltip = str_c("Generation : ", Generation, 
+                                           " - Mittelwert Anzahl Kinder: ", 
+                                           `Mittelwert Anzahl Kinder`, " Kinder (n = ",
+                                           Anzahl, ")"))) +
+  geom_text(aes(label = `Mittelwert Anzahl Kinder`), 
+            hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Mittlere Anzahl Kinder, direkte Vorfahren nach Generation") +
+  myTheme
+girafe(ggobj = g)
+```
 --------------------------------------------------------------------------------
 
 
@@ -197,7 +309,7 @@ computeTable(data, Geburt) |> getTable()
 dat <- computeTable(data, Geburt) |> filter(row_number() <= n()-2)
 g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) + 
   geom_bar_interactive(stat = "identity", 
-                       aes(fill = "#08519C", 
+                       aes(fill = "grey", 
                            tooltip = str_c(Geburt, ": n = ", Anzahl))) +
   scale_y_discrete(limits=rev, name = "Jahrhundert Geburt") +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
@@ -297,7 +409,7 @@ getTable(tab)
 #
 g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) + 
   geom_bar_interactive(stat = "identity", width = 0.5,
-           aes(fill = "#08519C", 
+           aes(fill = "grey", 
                tooltip = str_c("Geburt: ", Geburt, 
                                " - Mittelwert erreichtes Alter: ", 
                                `Mittelwert Alter`, " Jahre (n = ",
