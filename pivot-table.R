@@ -14,7 +14,7 @@ source("./R/3_DatenAufbereiten.R")
 source("./R/4_FamilienDaten.R")
 
 
-rpivotTable(data)
+rpivotTable(data, locale = "de")
 
 dataDIREKT <- data |> filter(Vorfahren == "Direkt")
-rpivotTable(dataDIREKT)
+rpivotTable(dataDIREKT, locale = "de")
