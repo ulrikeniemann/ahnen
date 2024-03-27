@@ -563,10 +563,10 @@ lev <- c("1", "Wolfgang", "test")
 
 leaflet(dataMap) |>
   addTiles() |>
-  addProviderTiles("Stadia.StamenWatercolor",
+  addProviderTiles("OpenTopoMap",#"Stadia.StamenWatercolor",
                    options = providerTileOptions(noWrap = TRUE)) |>
-    addProviderTiles("OpenTopoMap",
-                   options = providerTileOptions(opacity = 0.3)) |>
+    # addProviderTiles("OpenTopoMap",
+    #                options = providerTileOptions(opacity = 0.3)) |>
   setView(lng = mean(dataMap$lon1, na.rm = TRUE),
           lat = mean(dataMap$lat1, na.rm = TRUE), zoom = 7) |>
   addCircleMarkers(~lon1x, ~lat1x, radius = 4,
