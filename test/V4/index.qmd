@@ -1,0 +1,398 @@
+---
+title: "Ahnen Familie Niemann"
+author: "Ulrike Niemann"
+date: today
+lang: de
+format: 
+  html:
+    theme: minty
+    include-in-header: header.html
+    code-fold: true
+    highlight-style: github
+    toc: true
+    css: styles.css
+    grid:
+      body-width: 1000px
+execute:
+  echo: false
+  warning: false
+# editor: visual
+---
+
+Probanden: Juliane und Ulrike Niemann
+
+
+```{r setup}
+source("./R/0_setup+functions.R")
+```
+
+```{r}
+source("./R/1_DatenEinlesen.R")
+source("./R/2_DatenSelektieren.R")
+```
+
+```{r}
+source("./R/3_DatenAufbereiten.R")
+```
+
+```{r}
+source("./R/4_FamilienDaten.R")
+```
+
+
+Bisher wurden `r nrow(data)` Ahnen erfasst, 
+davon sind `r ZahlDirektAhnen` direkte Vorfahren.
+
+Die eingelesene Ahnen-Datei ist vom `r LetzteAktualisierung`.
+
+--------------------------------------------------------------------------------
+
+## Generation - nur direkte Vorfahren
+
+Anteil erfasster direkter Vorfahren an allen möglichen Vorfahren
+
+```{r}
+# Tabelle
+dat <- computeTable(data = data |> 
+                      filter(!is.na(Generation) & !str_detect(Generation, "0")), 
+                    Generation) 
+
+dat <- dat |> select(-Prozent)
+
+dat <- dat |> 
+  mutate(Vorfahren = c((2^(1:14)), sum(2^(1:14)))) |> 
+  mutate(Prozent = Anzahl / Vorfahren) |> 
+  mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ","))
+getTable(dat)
+```
+
+
+```{r}
+#| fig-height: 4
+# Grafik
+dat <- computeTable(data = data |> filter(!is.na(Generation) & !str_detect(Generation, "1")), 
+                    Generation) |> filter(row_number() <= n()-1)
+g <- ggplot(dat, aes(y = Generation, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(Generation, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl direkter Vorfahren nach Generation") +
+  myTheme
+#g
+girafe(ggobj = g)
+```
+
+--------------------------------------------------------------------------------
+
+## KekuleNr ... Ansicht bis 50
+
+```{r}
+# d <- make_graph(edges = c(2, 1, 3, 1, 4, 2, 5, 2, 6, 3, 7, 3, 8, 4, 9, 4, 10, 5, 11, 5, 12, 6, 13, 6, 14, 7, 15, 7, 16, 8, 17, 8, 18, 9, 19, 9, 20, 10, 21, 10, 22, 11, 23, 11, 24, 12, 25, 12, 26, 13, 27, 13, 28, 14, 29, 14, 30, 15, 31, 15, 32, 16, 33, 16, 34, 17, 35, 17, 36, 18, 37, 18, 38, 19, 39, 19, 40, 20, 41, 20, 42, 21, 43, 21, 44, 22, 45, 22, 47, 23, 48, 24, 49, 24, 50, 25), directed = FALSE)
+# plot(d)
+# https://r-graph-gallery.com/251-network-with-node-size-based-on-edges-number.html
+# create data:
+direkt <- data |> 
+  filter(KekuleNr > 1 & KekuleNr <= 50) |> 
+  select(KekuleNr, VORNAME, NACHNAME, Kind)
+
+links=data.frame(
+  source=as.character(direkt$KekuleNr),
+  target=as.character(direkt$Kind))
+
+# Turn it into igraph object
+network <- graph_from_data_frame(d=links, directed=F) 
+plot(network, layout=layout.fruchterman.reingold)
+```
+
+
+--------------------------------------------------------------------------------
+
+## Anzahl Kinder - NUR für direkte Vorfahren
+
+Nur für die direkten Vorfahren wurden die Pärchen gesucht. 
+
+Dabei wird angenommen dass Männer gerade Kekule-Nummern und die dazugehörigen 
+Frau ungerade Kekule-Nummern haben.
+
+Für die Paar wurde die gemeinsame Familie gesucht 
+(Vergleich Spalten Familie_1 bis Familie_4, alle Kombinationen).
+
+Wenn kein Partner vorhanden war und keine zweite Familie vorhanden war 
+wurde die erste Familie angenommen, ansonsten keine Angabe (1 Fall).
+
+Zu diesen Familien wurden die Anzahl Kinder aus der Familien-Tabelle angespielt.
+
+Theoretisch auch möglich: matchen der Familien-Tabelle über 
+Wife- und Husband-Spalten an Personen-ID, aber es kann halt mehrere Familien 
+pro Person geben, daher auch nicht weniger fehleranfällig?
+
+Testen und ggf. überdenken oder Daten sehr sauber führen.
+
+Bitte prüfen!!
+
+
+```{r}
+#| fig-height: 3
+# Grafik
+computeTable(data |> filter(Vorfahren == "Direkt"), AnzahlKinder) |> getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data, AnzahlKinder) |> filter(row_number() <= n()-2)
+g <- ggplot(dat, aes(y = AnzahlKinder, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(AnzahlKinder, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Anzahl Kinder") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
+  myTheme
+#g
+girafe(ggobj = g)
+```
+
+### Mittlere Anzahl Kinder
+
+```{r}
+#| fig-height: 3
+tab <- data |> 
+  filter(Vorfahren == "Direkt") |> 
+  group_by(Generation) |> 
+  summarise(`Mittelwert Anzahl Kinder` = round(mean(AnzahlKinder), 1),
+            Anzahl = n()) |> 
+  add_row(Generation = "Alle direkten Vorfahren",
+          `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
+          Anzahl = nrow(data |> filter(Vorfahren == "Direkt")))
+getTable(tab)
+#
+g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) + 
+  geom_bar_interactive(stat = "identity", width = 0.5,
+                       aes(fill = "#08519C", 
+                           tooltip = str_c("Generation : ", Generation, 
+                                           " - Mittelwert Anzahl Kinder: ", 
+                                           `Mittelwert Anzahl Kinder`, " Kinder (n = ",
+                                           Anzahl, ")"))) +
+  geom_text(aes(label = `Mittelwert Anzahl Kinder`), 
+            hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Mittlere Anzahl Kinder, direkte Vorfahren nach Generation") +
+  myTheme
+girafe(ggobj = g)
+```
+
+
+--------------------------------------------------------------------------------
+
+
+## Geburt / Jahrhundert - Alle
+
+```{r}
+#| fig-height: 2
+computeTable(data, Geburt) |> getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data, Geburt) |> filter(row_number() <= n()-2)
+g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(Geburt, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Jahrhundert Geburt") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl Vorfahren nach Geburtsjahrhundert") +
+  myTheme
+#g
+girafe(ggobj = g)
+```
+
+## Generation und Geburtsjahrhundert - nur Direktvorfahren
+
+```{r}
+#| fig-height: 4
+# Generation + Geburt
+g <- ggplot(data = data[!is.na(data$Generation), ], aes(y = Generation)) + 
+  geom_bar_interactive(aes(fill = Geburt, 
+                           tooltip = str_c("Anzahl = ", 
+                                           after_stat(count)))) +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = ..count..), 
+            stat = "count", hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_manual(values = 
+                      c(brewer.pal(length(levels(data$Geburt)), "Blues")[-1], "#aaaaaa")) +
+  ggtitle("Anzahl Direkt-Vorfahren nach Generation und Geburtsjahrhundert") +
+  myTheme
+girafe(ggobj = g)
+```
+
+--------------------------------------------------------------------------------
+
+## Erreichtes Alter
+
+### Alter: Nur Direkt-Vorfahren
+
+```{r}
+#| fig-height: 3
+# Altersgruppen - Direkt-Vorfahren
+computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
+  getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
+  filter(row_number() <= n()-2)
+
+g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(Altersgruppe, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Altersgruppe") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  #coord_flip() +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl Vorfahren nach Alter - Direktvorfahren") +
+  myTheme
+girafe(ggobj = g)
+```
+
+### Alter: Alle Vorfahren
+
+```{r}
+#| fig-height: 3
+# Altersgruppen - alle
+computeTable(data, Altersgruppe) |> getTable()
+# keine Angabe auch raus: -2
+dat <- computeTable(data, Altersgruppe) |> filter(row_number() <= n()-2)
+
+g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "grey", 
+                           tooltip = str_c(Altersgruppe, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Altersgruppe") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  #coord_flip() +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl Vorfahren nach Alter") +
+  myTheme
+girafe(ggobj = g)
+```
+
+### Mittleres Alter nach Jahrhunderten - Alle
+
+```{r}
+#| fig-height: 2
+tab <- data |> 
+  filter(!is.na(Alter)) |> 
+  group_by(Geburt) |> 
+  summarise(`Mittelwert Alter` = round(mean(Alter), 1),
+            Anzahl = n()) |> 
+  add_row(Geburt = "Alle Vorfahren",
+          `Mittelwert Alter` = round(mean(data$Alter, na.rm = TRUE), 1), 
+          Anzahl = nrow(data |> filter(!is.na(Alter))))
+getTable(tab)
+#
+g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) + 
+  geom_bar_interactive(stat = "identity", width = 0.5,
+           aes(fill = "#08519C", 
+               tooltip = str_c("Geburt: ", Geburt, 
+                               " - Mittelwert erreichtes Alter: ", 
+                               `Mittelwert Alter`, " Jahre (n = ",
+                               Anzahl, ")"))) +
+  geom_text(aes(label = `Mittelwert Alter`), 
+            hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Mittleres Alter bei Tod, Alle und nach Jahrhundert der Geburt") +
+  myTheme
+girafe(ggobj = g)
+```
+
+--------------------------------------------------------------------------------
+
+
+# Karten
+
+Den Geodaten fügen wir ein leichtes "Rauschen" hinzu, damit Dublikate (Vorfahren mit gleichen Geodaten)
+beim Reinscrollen trotzdem sichtbar werden.
+
+```{r}
+# Geo Dublikate ?
+# duplicated(data[,c("lat1", "lon1")]) |> table()
+# leichtes Rauschen
+data <- data |> 
+  mutate(lat1x = jitter(lat1, factor = 1),
+         lon1x = jitter(lon1, factor = 1),
+         lat2x = jitter(lat2, factor = 1),
+         lon2x = jitter(lon2, factor = 1) )
+
+```
+
+
+Beim Pop-Up sind die Namen hinterlegt.
+
+### Version 1
+
+Direkt- vs. weitere Vorfahren.
+
+Wiso ist da ein schwedischer noName ??
+
+```{r}
+
+col <- c("#08519C", "grey")
+cols <- colorFactor(palette = col, data$Vorfahren)
+# Karte V1
+leaflet(data |> filter(!is.na(lon1))) |>
+  addTiles() |>
+  addProviderTiles("OpenStreetMap.DE",
+                   options = providerTileOptions(noWrap = TRUE)) |>
+  # setView(lng = mean(data$lon1, na.rm = TRUE), 
+  #         lat = mean(data$lat1, na.rm = TRUE), zoom = 8) |> 
+    addCircleMarkers(~lon1x, ~lat1x, radius = 4,
+                   fillColor = col, fillOpacity = 0.7,
+                   weight = 1,
+                   popup = ~str_c(VORNAME, " ", NACHNAME)) |>
+  addLegend('bottomright', pal = cols, values = unique(data$Vorfahren),
+            title = 'Vorfahren',
+            opacity = 1)
+
+```
+
+### Version 2
+
+Geburtsorte nach Jahrhundert der Geburt.
+
+Es gibt außerdem viele verschiedene Hintergrundkarten, da ist noch das optimale zu wählen...
+
+siehe z.B. 
+http://leaflet-extras.github.io/leaflet-providers/preview/
+
+
+```{r}
+col <- c(brewer.pal(length(levels(data$Geburt)), "Blues")[-1], "#aaaaaa")
+lev <- levels(data$Geburt)
+cols <- colorFactor(palette = col, data$Geburt)
+
+l2 <- leaflet(data |> filter(!is.na(lon1))) |> 
+  addTiles() |> 
+  addProviderTiles(providers$Esri.NatGeoWorldMap) |> 
+  # setView(lng = mean(data$lon1, na.rm = TRUE),
+  #         lat = mean(data$lat1, na.rm = TRUE), zoom = 8) |>
+  addCircleMarkers(~lon1x, ~lat1x, radius = 4,
+                   fillColor  = ~cols(Geburt), fillOpacity = 0.7,
+                   weight = 1,
+                   popup = ~str_c(VORNAME, " ", NACHNAME)) |>
+  addLegend('bottomright', pal = cols, values = lev,
+            title = 'Geburt',
+            opacity = 1)
+l2
+```
+
+
+
+... hier kommt bald noch mehr ...

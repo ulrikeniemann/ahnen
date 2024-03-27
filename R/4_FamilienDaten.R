@@ -151,6 +151,22 @@ data <- data |>
   relocate(AnzahlKinder, .after = FamilieKind) |> 
   ungroup()
 
-
 # ..............................................................................
 
+dataDIREKT <- data |> filter(Vorfahren == "Direkt")
+
+# Wolfgang oder Renate
+dataDIREKT <- dataDIREKT |> 
+  mutate(Stamm = KekuleNr %/% (2^(GenerationNr-1)), .after = KekuleNr) |> 
+  mutate(Stamm = if_else(GenerationNr == 0, 1, Stamm)) |> 
+  mutate(Stamm = if_else(Stamm == 2, "Wolfgang", as.character(Stamm))) |> 
+  mutate(Stamm = if_else(Stamm == "3", "Renate", Stamm)) |> 
+  mutate(colorStamm = case_when(
+    Stamm == "Wolfgang" ~ "blue",
+    Stamm == "Renate" ~ "red",
+    .default = "grey"
+  ))
+
+# ..............................................................................
+# ..............................................................................
+# ..............................................................................

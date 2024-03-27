@@ -23,7 +23,7 @@ ZahlPers <- nrow(data)
 ZahlDirektAhnen <- nrow(data |> filter(Vorfahren == "Direkt"))
 
 # Datum der letzten Aktualisierung der Ahnendaten auslesen
-head <- read_excel(AhnenDatei, sheet = '1 HEAD')
+head <- read_excel(AhnenDatei, sheet = '1 HEAD') |> suppressMessages()
 
 # Datum ist immer auf 5, 3
 LetzteAktualisierung <- dmy(head[5, 3])
@@ -173,4 +173,6 @@ data <- data |>
     fct_reorder(Alter, .na_rm = TRUE) |> 
     fct_na_value_to_level("keine Angabe"))
 
+# ..............................................................................
+# ..............................................................................
 # ..............................................................................
