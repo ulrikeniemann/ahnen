@@ -42,30 +42,46 @@ source("./R/1_DatenEinlesen.R")
 source("./R/2_DatenSelektieren.R")
 source("./R/3_DatenAufbereiten.R")
 source("./R/4_FamilienDaten.R")
+
+tab <- data |> group_by(Vorfahren) |> 
+  count(Anzahl = n())
+
+Zahl_Probanden <- tab[[2,3]]
+Zahl_Ahnen <- tab[[1,3]] 
+Zahl_Weitere <- tab[[3,3]]
+
 ```
 
 
 Bisher wurden `r nrow(data)` Personen erfasst, 
-davon sind `r ZahlDirektAhnen` direkte Vorfahren.
+davon sind `r Zahl_Probanden` Probanden,
+`r Zahl_Ahnen` direkte Vorfahren und
+`r Zahl_Weitere` verwandt oder verschwägert.
 
 Die eingelesene Ahnen-Datei ist vom `r LetzteAktualisierung`.
 
 ```{r}
+
 #| fig-height: 1.2
+
 # Vergleich Anzahl Personen und direkte Vorfahren
-tab <- data |> group_by(Vorfahren) |> 
-  summarise(Anzahl = n()) |> 
-  mutate(Vorfahren = c("direkte Vorfahren", "weitere Personen")) |> 
-  mutate(Label = str_c(Vorfahren, "\n n = ", Anzahl)) |> 
-  mutate(color = c("#08519C", "grey"))
+#tab <- data |> group_by(Vorfahren) |> 
+#  summarise(Anzahl = n()) |> 
+#  mutate(Vorfahren = c("Ahnen", "Probanden", "verwandt & verschwägert"))# |> 
+ # mutate(Label = str_c(Vorfahren, "\n n = ", Anzahl)) |> 
+ # mutate(color = c("grey", "#08519C", "grey"))
 # treemap
-treemap(tab,
-        index="Label",
-        vSize="Anzahl",
-        type="color",
-        vColor = "color",
-        title = "",
-        sortID = "size")
+
+
+#treemap(tab,
+#        index="Label",
+#        vSize="Anzahl",
+#        type="color",
+#        vColor = "color",
+#        title = "",
+#        sortID = "size")
+
+
 ```
 
 
@@ -73,13 +89,44 @@ treemap(tab,
 
 ## Generation - nur direkte Vorfahren
 
-Anteil erfasster direkter Vorfahren an allen möglichen Vorfahren
+Anteil erfasster direkter Vorfahren an allen möglichen Vorfahren.
+
+```{r}
+# doppelte KekuleNr
+Zahl_Doppelte_Ahnen <- data |> filter(!is.na(KekuleNr2)) |> nrow()
+# hier mal temporär zusammengefügt 
+tempDirekt <-
+  dataDIREKT |> 
+  select(KekuleNr, Generation) |> 
+  add_row(
+    dataDIREKT |> 
+      filter(!is.na(KekuleNr2)) |> 
+      select(KekuleNr2, Generation) |> 
+      rename(KekuleNr = KekuleNr2)
+  )
+```
+
+
+Wir haben `r Zahl_Doppelte_Ahnen` "doppelte" direkten Vorfahren (doppelte Kekule). 
+(z.B. durch Heirat von Cousin oder so ??)
+
+Hier die betroffenen Generationen:
+
+```{r}
+data |> filter(!is.na(KekuleNr2)) |> 
+  group_by(Generation) |> 
+  count(Generation, name = "Anzahl") |> 
+  kable(align = c("l", "c", "c")) |> 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = F)
+```
+
+Das heißt: die `r Zahl_Ahnen` direkten Vorfahren/Personen entsprechen eigentlich `r Zahl_Ahnen` + `r Zahl_Doppelte_Ahnen` = `r nrow(tempDirekt)` direkten Ahnen. (richtig??)
+
 
 ```{r}
 # Tabelle
-dat <- computeTable(data = data |> 
-                      filter(!is.na(Generation) & !str_detect(Generation, "0")), 
-                    Generation) 
+dat <- computeTable(tempDirekt, Generation)
 
 dat <- dat |> select(-Prozent)
 
@@ -181,12 +228,14 @@ ggraph(mygraph, layout = 'tree', circular = FALSE) +
   expand_limits(x = c(-0, 0), y = c(-1.7, 1.7))
 ```
 
-Hier für alle direkten Vorfahren nach Stamm Wolfgang oder Stamm Renate:
+
 
 ```{r}
 #| fig-height: 6
 #| fig-width: 9
 # data: edge list
+
+# Hier für alle direkten Vorfahren nach Stamm Wolfgang oder Stamm Renate:
 edges <- data.frame(
   from=as.character(dataDIREKT$Kind),
   to=as.character(dataDIREKT$KekuleNr))
@@ -207,30 +256,146 @@ vertices[1, 6] <- "grey"
 vertices <- vertices[-c(2:3), ]
 edges <- edges[-c(1:2), ]
 
-mygraph <- graph_from_data_frame( edges, vertices=vertices )
+
+#mygraph <- graph_from_data_frame( edges, vertices=vertices )
 
 layout <- create_layout(mygraph, layout = 'tree', circular = FALSE)
 
-ggraph(layout, layout = 'tree', circular = FALSE) +
-  geom_edge_link() +
-  geom_node_text(aes(label = name, vjust = 1.5), size = 2) +
-  geom_node_point(aes(color = Stamm)) +
-  scale_color_manual(values=vertices$colorStamm)+
-  theme_void()
+#ggraph(layout, layout = 'tree', circular = FALSE) +
+#  geom_edge_link() +
+#  geom_node_text(aes(label = name, vjust = 1.5), size = 2) +
+#  geom_node_point(aes(color = Stamm)) +
+#  scale_color_manual(values=vertices$colorStamm)+
+#  theme_void()
+
+
+
 ```
-
-
-
-
-
 
 
 --------------------------------------------------------------------------------
 
-## Anzahl Kinder - Anzahl der direkten Vorfahren 
+## Version Wolfgang: Anzahl gemeinsamer Kinder <span style="text-decoration:underline">DER ELTERN</span> der direkten Linie (Eltern, Großeltern, Urgroßeltern...)
+
 
 
 ```{r}
+
+data_KIDS <- data |> 
+  filter(KekuleNr > 0) |> 
+  select(PERSONEN_ID, KekuleNr, NACHNAME, VORNAME, ELTERN)
+
+# für gemeinsame Kinder: nur die, die Eltern haben
+
+data_ELTERN <- data_KIDS |> filter(KekuleNr > 0, ! is.na(ELTERN))
+
+data_ELTERN <- data_ELTERN |>
+  left_join(FamTab |> select(FamID, AnzahlKinder), 
+            by = join_by(ELTERN == FamID)) |> 
+  rename(Kinderzahl_der_Eltern = AnzahlKinder)
+
+# ..............................................................................
+#| fig-height: 3
+
+# Tabelle
+computeTable(data_ELTERN, Kinderzahl_der_Eltern) |> getTable()
+
+# Grafik
+dat <- computeTable(data_ELTERN, Kinderzahl_der_Eltern) |> 
+  filter(row_number() <= n()-1) # Total-Zeile für Grafik raus
+# ..............................................................................
+ g <- ggplot(dat, aes(y = Kinderzahl_der_Eltern, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(Kinderzahl_der_Eltern, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Anzahl Kinder") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Anzahl der gemeinsamen Kinder der ELTERN der direkten Linie") +
+  myTheme
+
+
+girafe(ggobj = g)
+
+```
+
+--------------------------------------------------------------------------------
+
+## Gesamtzahl der Kinder der direkten Linie (Mutter, Vater, Großmütter, Großväter,...)  
+
+Hier also die Gesamtzahl der Kinder, entspricht Kindern aus jeweils allen Familien,
+also nicht nur die Vorfahren-Stamm-Familie.
+
+```{r}
+data_KIDS <- data |> 
+  filter(KekuleNr > 1)|> 
+  select(PERSONEN_ID, KekuleNr, NACHNAME, VORNAME,
+         FAMILIE_1, FAMILIE_2, FAMILIE_3, FAMILIE_4)
+
+# Anzahl der Kinder aus den einzelnen Verbindungen
+
+# VERBINDUNG 1
+data_KIDS <- data_KIDS |>
+left_join(FamTab |> select(FamID, AnzahlKinder), 
+          by = join_by(FAMILIE_1 == FamID)) |> 
+  rename("KINDER_1" = "AnzahlKinder")
+
+# VERBINDUNG 2
+data_KIDS <- data_KIDS |>
+left_join(FamTab |> select(FamID, AnzahlKinder), 
+          by = join_by(FAMILIE_2 == FamID)) |> 
+  rename("KINDER_2" = "AnzahlKinder")
+
+# VERBINDUNG 3
+data_KIDS <- data_KIDS |>
+left_join(FamTab |> select(FamID, AnzahlKinder), 
+          by = join_by(FAMILIE_3 == FamID)) |> 
+  rename("KINDER_3" = "AnzahlKinder")
+
+# VERBINDUNG 4
+data_KIDS <- data_KIDS |>
+left_join(FamTab |> select(FamID, AnzahlKinder), 
+          by = join_by(FAMILIE_4 == FamID)) |> 
+  rename("KINDER_4" = "AnzahlKinder")
+
+# Gesamtzahl der Kinder der einzelnen Ahnen
+# NA durch 0 ersetzen
+data_KIDS[is.na(data_KIDS)] <- 0
+
+data_KIDS <- data_KIDS |> 
+  mutate(SUMME_KINDER = KINDER_1 + KINDER_2 + KINDER_3 + KINDER_4)
+
+#| fig-height: 3
+
+
+# Tabelle
+computeTable(data_KIDS, SUMME_KINDER) |> getTable()
+
+# Grafik
+dat <- computeTable(data_KIDS, SUMME_KINDER)  |> 
+  filter(row_number() <= n()-1) # Grafik ohne Total-Zeile
+# ..............................................................................
+ g <- ggplot(dat, aes(y = SUMME_KINDER, x = Anzahl)) + 
+  geom_bar_interactive(stat = "identity", 
+                       aes(fill = "#08519C", 
+                           tooltip = str_c(SUMME_KINDER, ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Anzahl aller Kinder") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) +
+  geom_text(aes(label = Anzahl), hjust = -0.1, size = 8, size.unit = "pt") +
+  scale_fill_identity(guide = "none") +
+  ggtitle("Gesamtzahl der Kinder der einzelnen Ahnen") +
+  myTheme
+
+girafe(ggobj = g)
+
+```
+<!-- ab hier: Version Ulrike -------------------------------------------------->
+
+## Version Ulrike: Anzahl Kinder - Anzahl der direkten Vorfahren 
+
+```{r}
+
 #| fig-height: 3
 
 # Tabelle
@@ -582,3 +747,6 @@ leaflet(dataMap) |>
 
 
 ... hier kommt bald noch mehr ...
+
+```{r}
+

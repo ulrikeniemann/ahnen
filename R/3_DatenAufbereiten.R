@@ -9,13 +9,27 @@
 # ..............................................................................
 # ab hier mit data weiterarbeiten
 data <- data.frame(AhnTab)
+# aus KEKULE wird KekuleNr generiert - numerisch ohne Ahnenschwung
+# parse_number parses the first number it finds
+# d.h. bei doppelter KEKULE wird nur die erste Zahl gezogen
+data <- data |> 
+  mutate(KekuleNr = parse_number(KEKULE), .after = KEKULE)
+#
+# für die doppelten füge ich erst mal eine 2. Spalte an
+data <- data |> 
+  mutate(KekuleNr2 = str_split_i(KEKULE, " & ", 2) |> 
+           as.numeric(), .after = KekuleNr)
 # ..............................................................................
 
-# Anzahl Personen und Anzahl der direkten Vorfahren
 # direkte Vorfahren kennzeichnen
-data <- data |> 
-  mutate(Vorfahren = if_else(!is.na(KEKULE), "Direkt", "weitere"))
+#data <- data |> 
+#  mutate(Vorfahren = if_else(!is.na(KEKULE), "Direkt", "weitere"))
 
+data <- data |> 
+  mutate(Vorfahren =case_when(is.na(KekuleNr) ~ "weitere",
+                              KekuleNr == 1  ~ "Proband",
+                              KekuleNr > 1  ~ "Direkt"))
+#table(data$Vorfahren)
 # ..............................................................................
 # Variablen zur Anzeigen im Dokument generieren
 ZahlPers <- nrow(data)
@@ -55,15 +69,21 @@ LetzteAktualisierung <- format(LetzteAktualisierung, format = "%d.%m.%Y")
 #                                  ))
 
 # neu, Wolfgang:
+
+# aus KEKULE wird KekuleNr (numerisch, bei Ahnenschwund nur die erste Zahl, 
+# Ahnenschwund weiter aus KEKULE ersichtrlich
+
+
+
 ##### GENERATION (numerisch) aus KEKULE #####
 
-KekuleNr <- as.numeric(data[['KEKULE']])
-KekuleNr[is.na(KekuleNr) == TRUE] <- 0
-KekuleNr <- KekuleNr - KekuleNr %% 2
+KekuleNr <- data[['KekuleNr']]
+KekuleNr[is.na(KekuleNr)] <- 0
+KekuleNr <- KekuleNr - KekuleNr %% 2 # auf gerade Zahl abrunden
 GenerationNr <- KekuleNr
 
 for (i in 1:nrow(data)){
-  Gen<-0
+  Gen <- 0
   while(KekuleNr[i] > 1) {
     Gen <- Gen + 1
     KekuleNr[i] <- KekuleNr[i]/2
@@ -71,12 +91,14 @@ for (i in 1:nrow(data)){
       KekuleNr[i] <- KekuleNr[i] - KekuleNr[i] %% 2}
   }
   GenerationNr[i] <- Gen
+  #print 
 }
 
 # neue Spalten einfügen
 data <- data |> 
-  mutate(KekuleNr = parse_number(KEKULE), .after = KEKULE) |> 
-  mutate(GenerationNr, .after = KEKULE) |> 
+  mutate(GenerationNr = GenerationNr, .after = KekuleNr)
+
+data <- data |> 
   mutate(Generation = if_else(GenerationNr == 0, NA,
                               as.factor(GenerationNr)), .after = GenerationNr) |> 
   mutate(Generation = fct_recode(Generation,
@@ -176,3 +198,4 @@ data <- data |>
 # ..............................................................................
 # ..............................................................................
 # ..............................................................................
+
