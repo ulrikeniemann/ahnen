@@ -13,6 +13,7 @@ format:
     css: styles.css
     grid:
       body-width: 1000px
+  docx: default
 execute:
   echo: false
   warning: false
@@ -113,12 +114,16 @@ Wir haben `r Zahl_Doppelte_Ahnen` "doppelte" direkten Vorfahren (doppelte Kekule
 Hier die betroffenen Generationen:
 
 ```{r}
-data |> filter(!is.na(KekuleNr2)) |> 
+tab <- data |> filter(!is.na(KekuleNr2)) |> 
   group_by(Generation) |> 
-  count(Generation, name = "Anzahl") |> 
+  count(Generation, name = "Anzahl") 
+
+if (knitr::is_html_output()) { 
+  tab |> 
   kable(align = c("l", "c", "c")) |> 
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
-                full_width = F)
+                full_width = F) 
+} else { kable(tab) }
 ```
 
 Das heißt: die `r Zahl_Ahnen` direkten Vorfahren/Personen entsprechen eigentlich `r Zahl_Ahnen` + `r Zahl_Doppelte_Ahnen` = `r nrow(tempDirekt)` direkten Ahnen. (richtig??)
@@ -130,11 +135,11 @@ dat <- computeTable(tempDirekt, Generation)
 
 dat <- dat |> select(-Prozent)
 
-dat <- dat |> 
+tab <- dat |> 
   mutate(Vorfahren = c((2^(1:14)), sum(2^(1:14)))) |> 
   mutate(Prozent = Anzahl / Vorfahren) |> 
   mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ","))
-getTable(dat)
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 ```
 
 
@@ -154,7 +159,7 @@ g <- ggplot(dat, aes(y = Generation, x = Anzahl)) +
   ggtitle("Anzahl direkter Vorfahren nach Generation") +
   myTheme
 #g
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 --------------------------------------------------------------------------------
@@ -172,6 +177,8 @@ Nur zum Verständnis - KekuleNr (hier: bis 60):
 ```{r}
 #| fig-height: 7
 #| fig-width: 7
+
+if (knitr::is_html_output()) {
 # https://r-graph-gallery.com/251-network-with-node-size-based-on-edges-number.html
 # create data:
 direkt <- data |> 
@@ -186,11 +193,12 @@ links=data.frame(
 set.seed(2)
 network <- graph_from_data_frame(d=links, directed=F) 
 plot(network, layout=layout.fruchterman.reingold)
+}
 ```
 ```{r}
 #| fig-height: 6
 #| fig-width: 9
-
+if (knitr::is_html_output()) {
 # data: edge list
 edges=data.frame(
   from=as.character(direkt$Kind),
@@ -213,12 +221,14 @@ ggraph(mygraph, layout = 'tree', circular = FALSE) +
   geom_node_text(aes(label = name, vjust = 1.5)) +
   geom_node_point(aes(color = Generation)) +
   theme_void()
+}
 ```
 
 
 ```{r}
 #| fig-height: 6
 #| fig-width: 9
+if (knitr::is_html_output()) {
 ggraph(mygraph, layout = 'tree', circular = FALSE) +
   geom_edge_link() +
   geom_node_text(aes(label = str_c(VORNAME, " ", NACHNAME), 
@@ -226,11 +236,14 @@ ggraph(mygraph, layout = 'tree', circular = FALSE) +
   geom_node_point() +
   theme_void() +
   expand_limits(x = c(-0, 0), y = c(-1.7, 1.7))
+
+}
 ```
 
 
 
 ```{r}
+if (knitr::is_html_output()) {
 #| fig-height: 6
 #| fig-width: 9
 # data: edge list
@@ -269,7 +282,7 @@ layout <- create_layout(mygraph, layout = 'tree', circular = FALSE)
 #  theme_void()
 
 
-
+}
 ```
 
 
@@ -285,6 +298,18 @@ data_KIDS <- data |>
   filter(KekuleNr > 0) |> 
   select(PERSONEN_ID, KekuleNr, NACHNAME, VORNAME, ELTERN)
 
+
+
+
+# NEU Duplikate bei Ahnen (=direkte Linie) & Geschwistern der Probanden entfernen
+
+data_KIDS <- data_KIDS |> 
+  filter(! is.na(ELTERN))
+library(dplyr)
+data_KIDS <- data_KIDS %>% distinct( ELTERN, .keep_all = TRUE)
+
+# Ende NEU
+
 # für gemeinsame Kinder: nur die, die Eltern haben
 
 data_ELTERN <- data_KIDS |> filter(KekuleNr > 0, ! is.na(ELTERN))
@@ -298,7 +323,8 @@ data_ELTERN <- data_ELTERN |>
 #| fig-height: 3
 
 # Tabelle
-computeTable(data_ELTERN, Kinderzahl_der_Eltern) |> getTable()
+tab <- computeTable(data_ELTERN, Kinderzahl_der_Eltern) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 
 # Grafik
 dat <- computeTable(data_ELTERN, Kinderzahl_der_Eltern) |> 
@@ -316,7 +342,7 @@ dat <- computeTable(data_ELTERN, Kinderzahl_der_Eltern) |>
   myTheme
 
 
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 
 ```
 
@@ -370,7 +396,8 @@ data_KIDS <- data_KIDS |>
 
 
 # Tabelle
-computeTable(data_KIDS, SUMME_KINDER) |> getTable()
+tab <- computeTable(data_KIDS, SUMME_KINDER) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 
 # Grafik
 dat <- computeTable(data_KIDS, SUMME_KINDER)  |> 
@@ -387,7 +414,7 @@ dat <- computeTable(data_KIDS, SUMME_KINDER)  |>
   ggtitle("Gesamtzahl der Kinder der einzelnen Ahnen") +
   myTheme
 
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 
 ```
 <!-- ab hier: Version Ulrike -------------------------------------------------->
@@ -399,7 +426,8 @@ girafe(ggobj = g)
 #| fig-height: 3
 
 # Tabelle
-computeTable(dataDIREKT, AnzahlKinder) |> getTable()
+tab <- computeTable(dataDIREKT, AnzahlKinder)
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 # Grafik
 # keine Angabe auch raus: -2
 dat <- computeTable(dataDIREKT, AnzahlKinder) |> filter(row_number() <= n()-2)
@@ -414,7 +442,7 @@ dat <- computeTable(dataDIREKT, AnzahlKinder) |> filter(row_number() <= n()-2)
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ### Mittlere Anzahl Kinder - alle direkten Vorfahren
@@ -428,7 +456,7 @@ tab <- dataDIREKT |>
   add_row(Generation = "Alle direkten Vorfahren",
           `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
           Anzahl = nrow(data |> filter(Vorfahren == "Direkt")))
-getTable(tab)
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 #
 g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) + 
   geom_bar_interactive(stat = "identity", width = 0.5,
@@ -444,7 +472,7 @@ g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Mittlere Anzahl Kinder, direkte Vorfahren nach Generation") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ## Anzahl Kinder - Anzahl der direkten Vorfahren-PAARE 
@@ -454,8 +482,9 @@ girafe(ggobj = g)
 #| fig-height: 3
 
 # Tabelle
-computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), 
-             AnzahlKinder) |> getTable()
+tab <- computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), 
+             AnzahlKinder) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 # Grafik
 # keine Angabe auch raus: -2
 dat <- computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), AnzahlKinder) |>
@@ -471,7 +500,7 @@ dat <- computeTable(dataDIREKT |> select(Paar, AnzahlKinder) |> unique(), Anzahl
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl direkte Vorfahren nach Anzahl ihrer Kinder") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ### Mittlere Anzahl Kinder - alle direkten Vorfahren-PAARE
@@ -485,7 +514,7 @@ tab <- dataDIREKT |> select(Paar, AnzahlKinder, Generation) |> unique() |>
   add_row(Generation = "Alle direkten Vorfahren",
           `Mittelwert Anzahl Kinder` = round(mean(data$AnzahlKinder, na.rm = TRUE), 1), 
           Anzahl = nrow(data |> filter(Vorfahren == "Direkt")))
-getTable(tab)
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 #
 g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) + 
   geom_bar_interactive(stat = "identity", width = 0.5,
@@ -501,7 +530,7 @@ g <- ggplot(tab, aes(y = Generation, x = `Mittelwert Anzahl Kinder`)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Mittlere Anzahl Kinder, direkte Vorfahren nach Generation") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 --------------------------------------------------------------------------------
 
@@ -510,7 +539,8 @@ girafe(ggobj = g)
 
 ```{r}
 #| fig-height: 2
-computeTable(data, Geburt) |> getTable()
+tab <- computeTable(data, Geburt) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 # keine Angabe auch raus: -2
 dat <- computeTable(data, Geburt) |> filter(row_number() <= n()-2)
 g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) + 
@@ -524,7 +554,7 @@ g <- ggplot(dat, aes(y = Geburt, x = Anzahl)) +
   ggtitle("Anzahl Vorfahren nach Geburtsjahrhundert") +
   myTheme
 #g
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ## Generation und Geburtsjahrhundert - nur Direktvorfahren
@@ -544,7 +574,7 @@ g <- ggplot(data = data[!is.na(data$Generation), ], aes(y = Generation)) +
                       c(brewer.pal(length(levels(data$Geburt)), "Blues")[-1], "#aaaaaa")) +
   ggtitle("Anzahl Direkt-Vorfahren nach Generation und Geburtsjahrhundert") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 --------------------------------------------------------------------------------
@@ -556,8 +586,8 @@ girafe(ggobj = g)
 ```{r}
 #| fig-height: 3
 # Altersgruppen - Direkt-Vorfahren
-computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
-  getTable()
+tab <- computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 # keine Angabe auch raus: -2
 dat <- computeTable(data |> filter(Vorfahren == "Direkt"), Altersgruppe) |> 
   filter(row_number() <= n()-2)
@@ -573,7 +603,7 @@ g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl Vorfahren nach Alter - Direktvorfahren") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ### Alter: Alle Vorfahren
@@ -581,7 +611,8 @@ girafe(ggobj = g)
 ```{r}
 #| fig-height: 3
 # Altersgruppen - alle
-computeTable(data, Altersgruppe) |> getTable()
+tab <- computeTable(data, Altersgruppe) 
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 # keine Angabe auch raus: -2
 dat <- computeTable(data, Altersgruppe) |> filter(row_number() <= n()-2)
 
@@ -596,7 +627,7 @@ g <- ggplot(dat, aes(y = Altersgruppe, x = Anzahl)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Anzahl Vorfahren nach Alter") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 ### Mittleres Alter nach Jahrhunderten - Alle
@@ -611,7 +642,7 @@ tab <- data |>
   add_row(Geburt = "Alle Vorfahren",
           `Mittelwert Alter` = round(mean(data$Alter, na.rm = TRUE), 1), 
           Anzahl = nrow(data |> filter(!is.na(Alter))))
-getTable(tab)
+if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 #
 g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) + 
   geom_bar_interactive(stat = "identity", width = 0.5,
@@ -626,7 +657,7 @@ g <- ggplot(tab, aes(y = Geburt, x = `Mittelwert Alter`)) +
   scale_fill_identity(guide = "none") +
   ggtitle("Mittleres Alter bei Tod, Alle und nach Jahrhundert der Geburt") +
   myTheme
-girafe(ggobj = g)
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
 
 --------------------------------------------------------------------------------
@@ -659,7 +690,7 @@ Direkt- vs. weitere Vorfahren.
 Wiso ist da ein schwedischer noName ??
 
 ```{r}
-
+if (knitr::is_html_output()) {
 col <- c("#08519C", "grey")
 cols <- colorFactor(palette = col, data$Vorfahren)
 # Karte V1
@@ -676,7 +707,7 @@ leaflet(data |> filter(!is.na(lon1))) |>
   addLegend('bottomright', pal = cols, values = unique(data$Vorfahren),
             title = 'Vorfahren',
             opacity = 1)
-
+}
 ```
 
 ### Version 2
@@ -706,7 +737,7 @@ l2 <- leaflet(data |> filter(!is.na(lon1))) |>
   addLegend('bottomright', pal = cols, values = lev,
             title = 'Geburt',
             opacity = 1)
-l2
+if (knitr::is_html_output()) { l2 }
 ```
 
 ## Version 3: direkte Vorfahren nach Stamm
@@ -726,7 +757,7 @@ col <- dataMap$colorStamm
 cols <- colorFactor(palette = unique(dataMap$colorStamm), domain = NULL)
 lev <- c("1", "Wolfgang", "test")
 
-leaflet(dataMap) |>
+l3 <- leaflet(dataMap) |>
   addTiles() |>
   addProviderTiles("OpenTopoMap",#"Stadia.StamenWatercolor",
                    options = providerTileOptions(noWrap = TRUE)) |>
@@ -742,11 +773,12 @@ leaflet(dataMap) |>
             labels =  unique(dataMap$Stamm),
             title = 'Stamm',
             opacity = 1)
+if (knitr::is_html_output()) { l3 }
 
 ```
 
 
 ... hier kommt bald noch mehr ...
 
-```{r}
+
 

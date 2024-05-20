@@ -10,7 +10,7 @@
 # die ersten 8 Zeilen einlesen
 FamTab <- read_excel(AhnenDatei, 
                      sheet = '1 FAM', 
-                     col_names = FALSE, n_max = 8)
+                     col_names = FALSE, n_max = 4)
 # Überschrift 1.Spalte
 FamTab [1,1] <- "FamID"
 
@@ -25,7 +25,7 @@ SpaltenNamen <- SpaltenNamen$SpaltenNamen
 # jetzt den Rest einlesen und Spaltennamen vergeben
 FamTab <- read_excel(AhnenDatei , 
                      sheet = '1 FAM', 
-                     skip = 9,
+                     skip = 5,
                      col_names = SpaltenNamen)
 
 # Anzahl Kinder berechnen
@@ -170,3 +170,4 @@ dataDIREKT <- dataDIREKT |>
 # ..............................................................................
 # ..............................................................................
 # ..............................................................................
+

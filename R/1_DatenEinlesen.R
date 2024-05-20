@@ -15,10 +15,12 @@
 # GedTool einlesen
 AhnenDatei <- "./data/GedTool.xlsm"
 
-# die ersten 8 Zeilen einlesen
+# die Kopfzeilen einlesen
+# Kopf alt: 9 Zeilen, neu: 5 Zeilen
+
 AhnTab <- read_excel(AhnenDatei, 
                      sheet = '1 INDI', 
-                     col_names = FALSE, n_max = 8)
+                     col_names = FALSE, n_max = 4)
 
 # Überschrift 1.Spalte
 AhnTab [1,1] <- "ID"
@@ -35,7 +37,7 @@ SpaltenNamen <- SpaltenNamen$SpaltenNamen
 # jetzt den Rest einlesen und Spaltennamen vergeben
 AhnTab <- read_excel(AhnenDatei , 
                      sheet = '1 INDI', 
-                     skip = 9,
+                     skip = 5,
                      col_names = SpaltenNamen)
 
 

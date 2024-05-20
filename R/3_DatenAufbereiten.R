@@ -40,7 +40,7 @@ ZahlDirektAhnen <- nrow(data |> filter(Vorfahren == "Direkt"))
 head <- read_excel(AhnenDatei, sheet = '1 HEAD') |> suppressMessages()
 
 # Datum ist immer auf 5, 3
-LetzteAktualisierung <- dmy(head[5, 3])
+LetzteAktualisierung <- dmy(head[3, 5])
 LetzteAktualisierung <- format(LetzteAktualisierung, format = "%d.%m.%Y")
 
 # ..............................................................................
