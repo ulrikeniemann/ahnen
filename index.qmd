@@ -4,7 +4,7 @@ author: "Ulrike Niemann"
 date: today
 lang: de
 format: 
-  html:
+  html: 
     theme: minty
     include-in-header: header.html
     code-fold: true
@@ -12,7 +12,7 @@ format:
     toc: true
     css: styles.css
     grid:
-      body-width: 1000px
+      body-width: 1100px
   docx: default
 execute:
   echo: false
@@ -43,6 +43,8 @@ source("./R/1_DatenEinlesen.R")
 source("./R/2_DatenSelektieren.R")
 source("./R/3_DatenAufbereiten.R")
 source("./R/4_FamilienDaten.R")
+
+
 
 tab <- data |> group_by(Vorfahren) |> 
   count(Anzahl = n())
@@ -107,9 +109,10 @@ tempDirekt <-
   )
 ```
 
+<b>Ahnenimplex:</b>
 
 Wir haben `r Zahl_Doppelte_Ahnen` "doppelte" direkten Vorfahren (doppelte Kekule). 
-(z.B. durch Heirat von Cousin oder so ??)
+(z.B. durch Heirat von Cousin oder so)
 
 Hier die betroffenen Generationen:
 
@@ -126,7 +129,7 @@ if (knitr::is_html_output()) {
 } else { kable(tab) }
 ```
 
-Das heißt: die `r Zahl_Ahnen` direkten Vorfahren/Personen entsprechen eigentlich `r Zahl_Ahnen` + `r Zahl_Doppelte_Ahnen` = `r nrow(tempDirekt)` direkten Ahnen. (richtig??)
+Das heißt: die `r Zahl_Ahnen` direkten Vorfahren-Personen entsprechen eigentlich `r Zahl_Ahnen` + `r Zahl_Doppelte_Ahnen` = `r nrow(tempDirekt)` direkten Ahnen. 
 
 
 ```{r}
@@ -139,8 +142,41 @@ tab <- dat |>
   mutate(Vorfahren = c((2^(1:14)), sum(2^(1:14)))) |> 
   mutate(Prozent = Anzahl / Vorfahren) |> 
   mutate(Prozent = Prozent |> percent(accuracy = 0.1, decimal.mark = ","))
+
+# wir bereiten die Tabelle weiter auf
+# Spalte für Anzahl Personen
+tab <- tab |> 
+  add_column(
+    computeTable(dataDIREKT, Generation) |> 
+      select(Anzahl) |> 
+      rename(`Anzahl Personen IST` = Anzahl),
+    .after = "Anzahl"
+  ) 
+# Spalten umbenennen
+tab <- tab |> 
+  rename(`Anzahl Vorfahren IST` = Anzahl,
+         `Anzahl Vorfahren SOLL` = Vorfahren,
+         `Anteil Vorfahren IST an SOLL in %` = Prozent)
+# Spalten von (frühestes Geb.-Datum) bis (spätestes Sterbedatum)
+# erst mal temporär berechnen
+temp <- dataDIREKT |> 
+  group_by(Generation) |> 
+  summarise(von = min(year(GEBURTSDATUM), na.rm = TRUE),
+            bis = max(year(TODESDATUM), na.rm = TRUE)) |> 
+  suppressWarnings() |> 
+  mutate_if(is.numeric, list(~na_if(., Inf))) |> 
+  mutate_if(is.numeric, list(~na_if(., -Inf)))
+# und jetzt einfügen
+tab <- tab |> left_join(temp) |> 
+  relocate(c(von, bis), .after = Generation)
+
+# letzte Zeile modifizieren: Anzahl und Anteil raus
+tab[nrow(tab), 6:7] <- NA
+
+options(knitr.kable.NA = '')
 if (knitr::is_html_output()) { getTable(tab) } else { kable(tab) }
 ```
+
 
 
 ```{r}
@@ -161,6 +197,36 @@ g <- ggplot(dat, aes(y = Generation, x = Anzahl)) +
 #g
 if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
 ```
+
+
+```{r}
+#| fig-height: 4
+# Grafik
+dat <- tab |> 
+  filter(Generation != "Total") |> 
+  select(Generation, `Anzahl Vorfahren IST`, `Anzahl Vorfahren SOLL`) |> 
+  pivot_longer(cols = 2:3, names_to = "Variable", values_to = "Anzahl")
+
+g <- ggplot(dat, aes(y = Generation, x = Anzahl, fill = Variable, group = Variable)) + 
+  geom_bar_interactive(stat = "identity", position = position_dodge(), 
+                           aes(tooltip = str_c(Generation, " - ", Variable, 
+                                               ": n = ", Anzahl))) +
+  scale_y_discrete(limits=rev, name = "Generation / Ebene") +
+  scale_x_log10(expand = expansion(mult = c(0, 0.5))) +
+  scale_fill_manual(values = c("#08519C", "grey"))+
+  geom_text(aes(label = Anzahl), position = position_dodge(width = 1),
+            vjust = 0.4, hjust = -0.5, size = 6, size.unit = "pt") +
+  ggtitle("Anzahl direkter Vorfahren nach Generation Soll-Ist-Vergleich",
+          subtitle = "(Log-Skala)") +
+  myTheme +
+  theme(legend.title = element_blank(),
+        plot.subtitle = element_text(size = 8, color = "#5a5a5a"),
+        legend.position = "top",
+        legend.text = element_text(size = 7),
+        legend.key.size = unit(0.6, "line"))
+if (knitr::is_html_output()) { girafe(ggobj = g) } else { print(g) }
+```
+
 
 --------------------------------------------------------------------------------
 
